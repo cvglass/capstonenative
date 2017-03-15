@@ -16,7 +16,6 @@ import { Router, Scene } from 'react-native-router-flux';
 
 
 import DrawingPane from './DrawingPane'
-// import SvgTest from './svgTest';
 
 export default class capstonenative extends Component {
   render() {
@@ -33,8 +32,6 @@ export default class capstonenative extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: '#C1C2C3',
   },
   welcome: {
