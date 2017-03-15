@@ -12,14 +12,14 @@ import {
   View
 } from 'react-native';
 
-import PanResponderExample from './test'
-import SvgTest from './svgTest';
+import DrawingPane from './DrawingPane'
+// import SvgTest from './svgTest';
 
 export default class capstonenative extends Component {
   render() {
     return (
       <View>
-        <PanResponderExample />
+        <DrawingPane />
       </View>
     );
   }
@@ -28,9 +28,9 @@ export default class capstonenative extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: '#C1C2C3',
   },
   welcome: {
     fontSize: 20,
