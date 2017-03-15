@@ -15,7 +15,7 @@ import {
 import { Router, Scene } from 'react-native-router-flux';
 import socket from './socket'
 
-import DrawingPane from './DrawingPane'
+import DrawingPane from './src/components/DrawingPane'
 
 export default class capstonenative extends Component {
   render() {
