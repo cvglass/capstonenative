@@ -9,13 +9,9 @@ var {
 } = ReactNative;
 import Svg, { Polyline, Rect} from 'react-native-svg';
 
-
 var CIRCLE_SIZE = 20;
 
 var PanResponderExample = React.createClass({
-  getInitialState: function() {
-    return {coordinates: []}
-  },
 
   statics: {
     title: 'PanResponder Sample',
@@ -26,7 +22,6 @@ var PanResponderExample = React.createClass({
   _previousLeft: 0,
   _previousTop: 0,
   _circleStyles: {},
-  circle: (null : ?{ setNativeProps(props: Object): void }),
 
   componentWillMount: function() {
     this._panResponder = PanResponder.create({
@@ -37,8 +32,8 @@ var PanResponderExample = React.createClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
-    this._previousLeft = 20;
-    this._previousTop = 20;
+    this._previousLeft = 50;
+    this._previousTop = 50;
     this._circleStyles = {
       style: {
         left: this._previousLeft,
@@ -48,26 +43,16 @@ var PanResponderExample = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    this._updateNativeStyles();
+  getInitialState: function() {
+    return {coordinates: []}
   },
 
   render: function() {
     return (
-      <View>
-      <View
-        style={styles.container}>
-        <View
-          ref={(circle) => {
-            this.circle = circle;
-          }}
-          style={styles.circle}
-          {...this._panResponder.panHandlers}
-        />
-      </View>
+      <View {...this._panResponder.panHandlers}>
         <Svg
-          height="100"
-          width="200">
+          height="640"
+          width="480">
           <Polyline
             points={this.state.coordinates.slice(0, -1).join('')}
             fill="none"
@@ -75,22 +60,8 @@ var PanResponderExample = React.createClass({
             strokeWidth="3"
           />
         </Svg>
-        </View>
+      </View>
     );
-  },
-
-  _highlight: function() {
-    this._circleStyles.style.backgroundColor = 'blue';
-    this._updateNativeStyles();
-  },
-
-  _unHighlight: function() {
-    this._circleStyles.style.backgroundColor = 'green';
-    this._updateNativeStyles();
-  },
-
-  _updateNativeStyles: function() {
-    this.circle && this.circle.setNativeProps(this._circleStyles);
   },
 
   _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
@@ -104,37 +75,27 @@ var PanResponderExample = React.createClass({
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
-    this._highlight();
+    console.log('panrespondergrant')
   },
   _handlePanResponderMove: function(e: Object, gestureState: Object) {
-    this._circleStyles.style.left = this._previousLeft + gestureState.dx;
-    this._circleStyles.style.top = this._previousTop + gestureState.dy;
-    console.log(this.state.coordinates);
-    this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(this._circleStyles.style.left.toString(), ",", this._circleStyles.style.top.toString(), ' ')}
-    ))
 
-    this._updateNativeStyles();
+    e.persist();
+    this.setState((prevState, props) => ({
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
+    ))
   },
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
-    this._unHighlight();
     this._previousLeft += gestureState.dx;
     this._previousTop += gestureState.dy;
   },
 });
 
 var styles = StyleSheet.create({
-  circle: {
-    width: CIRCLE_SIZE,
-    height: CIRCLE_SIZE,
-    borderRadius: CIRCLE_SIZE / 2,
-    position: 'absolute',
-    left: 0,
-    top: 0,
-  },
   container: {
+    width: 100,
+    height: 100,
     flex: 1,
-    paddingTop: 64,
+    paddingTop: 1,
   },
 });
 
