@@ -12,14 +12,14 @@ import {
   View
 } from 'react-native';
 
-import PanResponder from './test'
+import PanResponderExample from './test'
 import SvgTest from './svgTest';
 
 export default class capstonenative extends Component {
   render() {
     return (
       <View>
-        <PanResponder />
+        <PanResponderExample />
       </View>
     );
   }
