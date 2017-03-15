@@ -25,8 +25,6 @@ var PanResponderExample = React.createClass({
 
 
   componentWillMount: function() {
-    console.log(Dimensions.get('window').height)
-    console.log(Dimensions.get('window').width)
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -45,11 +43,7 @@ var PanResponderExample = React.createClass({
       polyLines: [],
     }
   },
-
-  handleSubmitButtonPress () {
-
-  },
-
+  
   render: function() {
     return (
       <View {...this._panResponder.panHandlers}>
@@ -57,21 +51,15 @@ var PanResponderExample = React.createClass({
           height={Dimensions.get('window').height - 50}
           width={Dimensions.get('window').width}
         >
-
-          {/*
-            */}
-            <Polyline
-              points={`${this.state.coordinates.slice(0,-1).join('')}`}
-              fill="none"
-              stroke="blue"
-              strokeWidth="2"
-              />
+          <Polyline
+            points={`${this.state.coordinates.slice(0,-1).join('')}`}
+            fill="none"
+            stroke="blue"
+            strokeWidth="2"
+            />
 
           {
             this.state.polyLines.map((line,i) => {
-              // console.log(line)
-              // console.log('coords', this.state.coordinates.slice(0,-1).join(''))
-              // console.log('line', line.slice(0,-1).join(''))
               return (
                 <Polyline
                   key={i}
@@ -119,7 +107,6 @@ var PanResponderExample = React.createClass({
       let newPoint = this.state.coordinates.slice();
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
       this.setState((prevState, props) => ({
-
         coordinates: prevState.coordinates.concat(newPoint),
       }))
     }
