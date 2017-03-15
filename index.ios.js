@@ -12,15 +12,19 @@ import {
   View
 } from 'react-native';
 
-import PanResponderExample from './test'
-import SvgTest from './svgTest';
+import { Router, Scene } from 'react-native-router-flux';
+
+
+import DrawingPane from './DrawingPane'
 
 export default class capstonenative extends Component {
   render() {
     return (
-      <View>
-        <PanResponderExample />
-      </View>
+      <Router>
+        <Scene key='drawkward'>
+          <Scene key='drawkward-drawing-pane' component={DrawingPane} title="Drawkward - Draw!" initial={true} />
+        </Scene>
+      </Router>
     );
   }
 }
@@ -28,9 +32,7 @@ export default class capstonenative extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#C1C2C3',
   },
   welcome: {
     fontSize: 20,

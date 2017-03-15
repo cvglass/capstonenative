@@ -8,8 +8,11 @@ var {
   View,
 } = ReactNative;
 import Svg, { Polyline, Rect} from 'react-native-svg';
+import SubmitDrawing from './SubmitDrawing'
 
-var CIRCLE_SIZE = 20;
+import { Actions } from 'react-native-router-flux';
+import Dimensions from 'Dimensions';
+
 
 var PanResponderExample = React.createClass({
 
@@ -19,9 +22,7 @@ var PanResponderExample = React.createClass({
   },
 
   _panResponder: {},
-  _previousLeft: 0,
-  _previousTop: 0,
-  _circleStyles: {},
+
 
   componentWillMount: function() {
     this._panResponder = PanResponder.create({
@@ -32,71 +33,97 @@ var PanResponderExample = React.createClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
-    this._previousLeft = 50;
-    this._previousTop = 50;
-    this._circleStyles = {
-      style: {
-        left: this._previousLeft,
-        top: this._previousTop,
-        backgroundColor: 'green',
-      }
-    };
+
+
   },
 
   getInitialState: function() {
-    return {coordinates: []}
+    return {
+      coordinates: [],
+      polyLines: [],
+    }
   },
-
+  
   render: function() {
     return (
       <View {...this._panResponder.panHandlers}>
-        <Svg
-          height="640"
-          width="480">
+        <Svg style={styles.container}
+          height={Dimensions.get('window').height - 50}
+          width={Dimensions.get('window').width}
+        >
           <Polyline
-            points={this.state.coordinates.slice(0, -1).join('')}
+            points={`${this.state.coordinates.slice(0,-1).join('')}`}
             fill="none"
-            stroke="black"
-            strokeWidth="3"
-          />
+            stroke="blue"
+            strokeWidth="2"
+            />
+
+          {
+            this.state.polyLines.map((line,i) => {
+              return (
+                <Polyline
+                  key={i}
+                  points={line.slice(0,-1).join('')}
+                  fill="none"
+                  stroke="black"
+                  strokeWidth="2"
+                />
+              )
+            })
+          }
+
         </Svg>
+        <SubmitDrawing
+          polyLines={this.state.polyLines}
+        />
       </View>
     );
   },
 
   _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
-    // Should we become active when the user presses down on the circle?
     return true;
   },
 
   _handleMoveShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
-    // Should we become active when the user moves a touch over the circle?
     return true;
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
-    console.log('panrespondergrant')
-  },
-  _handlePanResponderMove: function(e: Object, gestureState: Object) {
-
     e.persist();
     this.setState((prevState, props) => ({
       coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
     ))
   },
+
+  _handlePanResponderMove: function(e: Object, gestureState: Object) {
+    e.persist();
+    this.setState((prevState, props) => ({
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
+    ))
+  },
+
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
-    this._previousLeft += gestureState.dx;
-    this._previousTop += gestureState.dy;
+    if(this.state.coordinates.length === 4) {
+      let newPoint = this.state.coordinates.slice();
+      newPoint[2] = (Number(newPoint[2]) + 2).toString();
+      this.setState((prevState, props) => ({
+        coordinates: prevState.coordinates.concat(newPoint),
+      }))
+    }
+    this.setState((prevState, props) => ({
+      polyLines: prevState.polyLines.concat([prevState.coordinates]),
+      coordinates: [],
+    }))
+
   },
 });
 
+
+
 var styles = StyleSheet.create({
   container: {
-    width: 100,
-    height: 100,
-    flex: 1,
-    paddingTop: 1,
-  },
+    backgroundColor: '#C1C2C3'
+  }
 });
 
 export default PanResponderExample;
