@@ -5,6 +5,7 @@ const {
   View,
 } = ReactNative;
 import Button from 'react-native-button';
+import socket from './socket';
 
 
 
@@ -20,6 +21,7 @@ class SubmitDrawingButton extends React.Component {
   onButtonPress() {
     Alert.alert('Button has been pressed!');
     console.log(this.props.polyLines);
+    socket.emit('sendCoordinatesFromIOS', this.props.polyLines)
   }
 
   render() {

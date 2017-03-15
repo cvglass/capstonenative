@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 import { Router, Scene } from 'react-native-router-flux';
-
+import socket from './socket'
 
 import DrawingPane from './DrawingPane'
 
