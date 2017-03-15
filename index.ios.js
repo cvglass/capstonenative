@@ -12,15 +12,20 @@ import {
   View
 } from 'react-native';
 
+import { Router, Scene } from 'react-native-router-flux';
+
+
 import DrawingPane from './DrawingPane'
 // import SvgTest from './svgTest';
 
 export default class capstonenative extends Component {
   render() {
     return (
-      <View>
-        <DrawingPane />
-      </View>
+      <Router>
+        <Scene key='drawkward'>
+          <Scene key='drawkward-drawing-pane' component={DrawingPane} title="Drawkward - Draw!" initial={true} />
+        </Scene>
+      </Router>
     );
   }
 }

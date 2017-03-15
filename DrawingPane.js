@@ -10,6 +10,10 @@ var {
 import Svg, { Polyline, Rect} from 'react-native-svg';
 import SubmitDrawing from './SubmitDrawing'
 
+import { Actions } from 'react-native-router-flux';
+import Dimensions from 'Dimensions';
+
+
 var PanResponderExample = React.createClass({
 
   statics: {
@@ -18,11 +22,11 @@ var PanResponderExample = React.createClass({
   },
 
   _panResponder: {},
-  _previousLeft: 0,
-  _previousTop: 0,
 
 
   componentWillMount: function() {
+    console.log(Dimensions.get('window').height)
+    console.log(Dimensions.get('window').width)
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -31,8 +35,7 @@ var PanResponderExample = React.createClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
-    this._previousLeft = 50;
-    this._previousTop = 50;
+
 
   },
 
@@ -42,14 +45,17 @@ var PanResponderExample = React.createClass({
       polyLines: [],
     }
   },
-  
+
+  handleSubmitButtonPress () {
+
+  },
 
   render: function() {
     return (
       <View {...this._panResponder.panHandlers}>
         <Svg style={styles.container}
-          height="500"
-          width={500/16*9}
+          height={Dimensions.get('window').height - 50}
+          width={Dimensions.get('window').width}
         >
 
           {/*
@@ -95,16 +101,13 @@ var PanResponderExample = React.createClass({
   },
 
   _handlePanResponderGrant: function(e: Object, gestureState: Object) {
-    // console.log('handleEnd', this.state.polyLines)
     e.persist();
     this.setState((prevState, props) => ({
       coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
     ))
-    console.log('panrespondergrant')
   },
 
   _handlePanResponderMove: function(e: Object, gestureState: Object) {
-    console.log('handlepanrespondermove')
     e.persist();
     this.setState((prevState, props) => ({
       coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
@@ -112,13 +115,9 @@ var PanResponderExample = React.createClass({
   },
 
   _handlePanResponderEnd: function(e: Object, gestureState: Object) {
-    console.log('panresponderend');
     if(this.state.coordinates.length === 4) {
-      // console.log('coordinates', this.state.coordinates)
       let newPoint = this.state.coordinates.slice();
-      // console.log(newPoint)
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
-      // console.log(newPoint)
       this.setState((prevState, props) => ({
 
         coordinates: prevState.coordinates.concat(newPoint),
@@ -128,10 +127,11 @@ var PanResponderExample = React.createClass({
       polyLines: prevState.polyLines.concat([prevState.coordinates]),
       coordinates: [],
     }))
-    this._previousLeft += gestureState.dx;
-    this._previousTop += gestureState.dy;
+
   },
 });
+
+
 
 var styles = StyleSheet.create({
   container: {
