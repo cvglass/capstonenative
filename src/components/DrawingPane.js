@@ -14,7 +14,7 @@ import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
 
 
-var PanResponderExample = React.createClass({
+var DrawingPane = React.createClass({
 
   statics: {
     title: 'PanResponder Sample',
@@ -33,8 +33,6 @@ var PanResponderExample = React.createClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
-
-
   },
 
   getInitialState: function() {
@@ -126,4 +124,4 @@ var styles = StyleSheet.create({
   }
 });
 
-export default PanResponderExample;
+export default DrawingPane;

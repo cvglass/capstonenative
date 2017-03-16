@@ -5,7 +5,7 @@ const {
   View,
 } = ReactNative;
 import Button from 'react-native-button';
-import socket from '../../socket';
+import socket from '../socket';
 
 
 
@@ -31,7 +31,7 @@ class SubmitDrawingButton extends React.Component {
        style={{fontSize: 20, color: 'white'}}
        onPress={() => this.onButtonPress()}>
 
-        Press Me!
+        Submit Drawing!
 
       </Button>
     )
