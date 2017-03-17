@@ -15,6 +15,7 @@ import { setPolyLines } from '../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
 import SubmitDrawing from './SubmitDrawing';
+import { emitToSocket, sendCoordinatesFromIOS } from '../utils';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
@@ -38,6 +39,7 @@ class DrawingPane extends React.Component {
       this._handlePanResponderGrant = this._handlePanResponderGrant.bind(this);
       this._handlePanResponderMove = this._handlePanResponderMove.bind(this);
       this._handlePanResponderEnd = this._handlePanResponderEnd.bind(this)
+      this.handlePress = this.handlePress.bind(this)
   }
 
 
@@ -52,28 +54,35 @@ class DrawingPane extends React.Component {
     });
   }
 
+  handlePress(emitMsg, emitObj) {
+    // return ((emitMsg, emitObj) => {
+      emitToSocket(emitMsg, emitObj);
+      Actions.drawkwardDrawingWait();
+    // })
+  }
 
   render() {
     return (
       <View {...this._panResponder.panHandlers}>
-        <Svg style={styles.container}
+        <Svg
+style={styles.container}
           height={Dimensions.get('window').height - 50}
           width={Dimensions.get('window').width}
         >
-          
+
             <Polyline
-              points={`${this.state.coordinates.slice(0,-1).join('')}`}
+              points={`${this.state.coordinates.slice(0, -1).join('')}`}
               fill="none"
               stroke="blue"
               strokeWidth="2"
               />
 
           {
-            this.state.polyLines.map((line,i) => {
+            this.props.polyLines.map((line, i) => {
               return (
                 <Polyline
                   key={i}
-                  points={line.slice(0,-1).join('')}
+                  points={line.slice(0, -1).join('')}
                   fill="none"
                   stroke="black"
                   strokeWidth="2"
@@ -84,47 +93,73 @@ class DrawingPane extends React.Component {
 
         </Svg>
         <SubmitDrawing
-          polyLines={this.state.polyLines}
-          onPress
+          onPress={() => this.handlePress(sendCoordinatesFromIOS, {portrait: this.props.polyLines})}
         />
       </View>
     );
   }
 
-  _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
+  _handleStartShouldSetPanResponder(e, gestureState) {
     return true;
   }
 
-  _handleMoveShouldSetPanResponder(e: Object, gestureState: Object): boolean {
+  _handleMoveShouldSetPanResponder(e, gestureState) {
     return true;
   }
 
-  _handlePanResponderGrant(e: Object, gestureState: Object) {
+  _handlePanResponderGrant(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
     ))
   }
 
-  _handlePanResponderMove(e: Object, gestureState: Object) {
+  _handlePanResponderMove(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
     ))
   }
 
-  _handlePanResponderEnd(e: Object, gestureState: Object) {
-    if(this.state.coordinates.length === 4) {
+  _handlePanResponderEnd(e, gestureState) {
+
+    if (this.state.coordinates.length === 4) {
       let newPoint = this.state.coordinates.slice();
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
-      this.setState((prevState, props) => ({
-        coordinates: prevState.coordinates.concat(newPoint),
-      }))
+      let newCoords = this.state.coordinates.concat(newPoint)
+      let updatePoly = new Promise((resolve, reject) => {
+        this.props.setPolyLines(newCoords);
+        window.setTimeout(() => {
+          resolve('done');
+        }, 0)
+      })
+      .then(() => {
+        this.setState((prevState, props) => ({
+          polyLines: prevState.polyLines.concat([newCoords]),
+          coordinates: [],
+        }))
+      })
+      .catch(err => {
+        console.err(err);
+      })
+    } else {
+      let updatePoly = new Promise((resolve, reject) => {
+        this.props.setPolyLines(this.state.coordinates);
+        window.setTimeout(() => {
+          resolve('done');
+        }, 0)
+      })
+      .then(() => {
+        this.setState((prevState, props) => ({
+          // this.props.setPolyLines(this.state.coordinates)
+          polyLines: prevState.polyLines.concat([prevState.coordinates]),
+          coordinates: [],
+        }))
+      })
+      .catch(err => {
+        console.err(err);
+      })
     }
-    this.setState((prevState, props) => ({
-      polyLines: prevState.polyLines.concat([prevState.coordinates]),
-      coordinates: [],
-    }))
 
   }
 }

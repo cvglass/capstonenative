@@ -15,7 +15,7 @@ const drawkwardReducer = (prevState = initialState, action) => {
 
   switch (action.type) {
     case SET_POLYLINES:
-      newState.polyLines = action.polyLines;
+      newState.polyLines = prevState.polyLines.concat([action.polyLines]);
       break;
     default:
       return prevState;

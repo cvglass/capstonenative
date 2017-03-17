@@ -18,15 +18,19 @@ import { Provider } from 'react-redux'
 import store from './src/store'
 
 import DrawingPane from './src/components/DrawingPane'
+import DrawingWait from './src/components/DrawingWait'
 
 export default class capstonenative extends Component {
   render() {
     return (
       <Provider store={store}>
         <Router>
-          <Scene key="drawkward">
-            <Scene key="drawkward-drawing-pane" component={DrawingPane} title="Drawkward - Draw!" initial={true} />
-          </Scene>
+
+            <Scene key="drawkward">
+              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!" initial={true} />
+              <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" />
+            </Scene>
+
         </Router>
       </Provider>
     );
