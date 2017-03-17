@@ -17,7 +17,6 @@ class SubmitDrawingButton extends React.Component {
 
   }
 
-
   onButtonPress() {
     Alert.alert('Button has been pressed!');
     console.log(this.props.polyLines);

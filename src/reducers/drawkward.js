@@ -3,12 +3,10 @@
 export const SET_POLYLINES = 'SET_POLYLINES';
 
 
-
 //initial reducer state
 const initialState = {
   polyLines: [],
 }
-
 
 //reducer
 const drawkwardReducer = (prevState = initialState, action) => {
@@ -31,7 +29,8 @@ const drawkwardReducer = (prevState = initialState, action) => {
 export const setPolyLines = (polyLines) => ({
   type: SET_POLYLINES,
   polyLines
-})
+});
+
 
 
 export default drawkwardReducer;

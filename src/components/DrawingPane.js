@@ -8,23 +8,40 @@ var {
   View,
 } = ReactNative;
 import Svg, { Polyline, Rect} from 'react-native-svg';
-import SubmitDrawing from './SubmitDrawing'
-
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+
+import { setPolyLines } from '../reducers/drawkward';
+
 import Dimensions from 'Dimensions';
+import SubmitDrawing from './SubmitDrawing';
+
+const mapStateToProps = state => ({
+  polyLines: state.drawkward.polyLines,
+});
+
+const mapDispatchToProps = dispatch => ({
+  setPolyLines: (polyLines) => dispatch(setPolyLines(polyLines)),
+})
 
 
-var DrawingPane = React.createClass({
+class DrawingPane extends React.Component {
+  constructor(props) {
+    super(props);
+    this._panResponder = {};
+    this.state = {
+        coordinates: [],
+        polyLines: [],
+    };
+      this._handleStartShouldSetPanResponder = this._handleStartShouldSetPanResponder.bind(this);
+      this._handleMoveShouldSetPanResponder = this._handleMoveShouldSetPanResponder.bind(this);
+      this._handlePanResponderGrant = this._handlePanResponderGrant.bind(this);
+      this._handlePanResponderMove = this._handlePanResponderMove.bind(this);
+      this._handlePanResponderEnd = this._handlePanResponderEnd.bind(this)
+  }
 
-  statics: {
-    title: 'PanResponder Sample',
-    description: 'Shows the use of PanResponder to provide basic gesture handling.',
-  },
 
-  _panResponder: {},
-
-
-  componentWillMount: function() {
+  componentWillMount() {
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -33,28 +50,23 @@ var DrawingPane = React.createClass({
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
-  },
+  }
 
-  getInitialState: function() {
-    return {
-      coordinates: [],
-      polyLines: [],
-    }
-  },
 
-  render: function() {
+  render() {
     return (
       <View {...this._panResponder.panHandlers}>
         <Svg style={styles.container}
           height={Dimensions.get('window').height - 50}
           width={Dimensions.get('window').width}
         >
-          <Polyline
-            points={`${this.state.coordinates.slice(0,-1).join('')}`}
-            fill="none"
-            stroke="blue"
-            strokeWidth="2"
-            />
+          
+            <Polyline
+              points={`${this.state.coordinates.slice(0,-1).join('')}`}
+              fill="none"
+              stroke="blue"
+              strokeWidth="2"
+              />
 
           {
             this.state.polyLines.map((line,i) => {
@@ -73,34 +85,35 @@ var DrawingPane = React.createClass({
         </Svg>
         <SubmitDrawing
           polyLines={this.state.polyLines}
+          onPress
         />
       </View>
     );
-  },
+  }
 
-  _handleStartShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
+  _handleStartShouldSetPanResponder(e: Object, gestureState: Object): boolean {
     return true;
-  },
+  }
 
-  _handleMoveShouldSetPanResponder: function(e: Object, gestureState: Object): boolean {
+  _handleMoveShouldSetPanResponder(e: Object, gestureState: Object): boolean {
     return true;
-  },
+  }
 
-  _handlePanResponderGrant: function(e: Object, gestureState: Object) {
+  _handlePanResponderGrant(e: Object, gestureState: Object) {
     e.persist();
     this.setState((prevState, props) => ({
       coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
     ))
-  },
+  }
 
-  _handlePanResponderMove: function(e: Object, gestureState: Object) {
+  _handlePanResponderMove(e: Object, gestureState: Object) {
     e.persist();
     this.setState((prevState, props) => ({
       coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ",", e.nativeEvent.pageY.toString(), ' ')}
     ))
-  },
+  }
 
-  _handlePanResponderEnd: function(e: Object, gestureState: Object) {
+  _handlePanResponderEnd(e: Object, gestureState: Object) {
     if(this.state.coordinates.length === 4) {
       let newPoint = this.state.coordinates.slice();
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
@@ -113,8 +126,8 @@ var DrawingPane = React.createClass({
       coordinates: [],
     }))
 
-  },
-});
+  }
+}
 
 
 
@@ -124,4 +137,4 @@ var styles = StyleSheet.create({
   }
 });
 
-export default DrawingPane;
+export default connect(mapStateToProps, mapDispatchToProps)(DrawingPane);
