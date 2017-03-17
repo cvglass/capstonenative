@@ -13,18 +13,26 @@ import {
 } from 'react-native';
 
 import { Router, Scene } from 'react-native-router-flux';
-import socket from './socket'
+import socket from './src/socket'
+import { Provider } from 'react-redux'
+import store from './src/store'
 
-import DrawingPane from './DrawingPane'
+import DrawingPane from './src/components/DrawingPane'
+import DrawingWait from './src/components/DrawingWait'
 
 export default class capstonenative extends Component {
   render() {
     return (
-      <Router>
-        <Scene key='drawkward'>
-          <Scene key='drawkward-drawing-pane' component={DrawingPane} title="Drawkward - Draw!" initial={true} />
-        </Scene>
-      </Router>
+      <Provider store={store}>
+        <Router>
+
+            <Scene key="drawkward">
+              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!" initial={true} />
+              <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" />
+            </Scene>
+
+        </Router>
+      </Provider>
     );
   }
 }
