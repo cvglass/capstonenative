@@ -5,6 +5,7 @@ import socket from './socket';
 
 export const sendCoordinatesFromIOS = 'sendCoordinatesFromIOS';
 export const newGuess = 'newGuess';
+export const selectCaption = 'selectCaption';
 
 //receive message constants
 export const writeCaption = 'writeCaption';

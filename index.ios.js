@@ -21,6 +21,8 @@ import DrawingPane from './src/components/DrawingPane';
 import DrawingWait from './src/components/DrawingWait';
 import WriteCaption from './src/components/WriteCaption';
 import PhraseWait from './src/components/PhraseWait';
+import ListCaptions from './src/components/ListCaptions'
+
 
 export default class capstonenative extends Component {
   render() {
@@ -33,6 +35,7 @@ export default class capstonenative extends Component {
               <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} />
               <Scene key="drawkwardWriteCaption" component={ WriteCaption } title="Write a caption!" hideNavBar={true} />
               <Scene key="drawkwardPhraseWait" component={ PhraseWait } title="Waiting for Phrases!" hideNavBar={true} />
+              <Scene key="drawkwardListCaptions" component={ ListCaptions } title="Select the original title" hideNavBar={true}/>
             </Scene>
 
         </Router>
