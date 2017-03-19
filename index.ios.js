@@ -17,8 +17,9 @@ import socket from './src/socket'
 import { Provider } from 'react-redux'
 import store from './src/store'
 
-import DrawingPane from './src/components/DrawingPane'
-import DrawingWait from './src/components/DrawingWait'
+import DrawingPane from './src/components/DrawingPane';
+import DrawingWait from './src/components/DrawingWait';
+import WriteCaption from './src/components/WriteCaption';
 
 export default class capstonenative extends Component {
   render() {
@@ -28,7 +29,8 @@ export default class capstonenative extends Component {
 
             <Scene key="drawkward">
               <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!" initial={true} />
-              <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" />
+              <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} />
+              <Scene key="drawkwardWriteCaption" component={ WriteCaption } title="Write a caption!" hideNavBar={true} />
             </Scene>
 
         </Router>

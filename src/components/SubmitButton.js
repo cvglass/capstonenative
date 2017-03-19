@@ -9,7 +9,7 @@ import Button from 'react-native-button';
 
 
 
-class SubmitDrawing extends React.Component {
+class SubmitButton extends React.Component {
 
   constructor(props) {
     super(props);
@@ -30,7 +30,7 @@ class SubmitDrawing extends React.Component {
        style={{fontSize: 20, color: 'white'}}
        onPress={this.onButtonPress}>
 
-        Submit Drawing!
+        {this.props.buttonText}
 
       </Button>
     )
@@ -38,4 +38,4 @@ class SubmitDrawing extends React.Component {
 
 }
 
-export default SubmitDrawing;
+export default SubmitButton;

@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { setPolyLines } from '../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
-import SubmitDrawing from './SubmitDrawing';
+import SubmitButton from './SubmitButton';
 import { emitToSocket, sendCoordinatesFromIOS } from '../utils';
 
 const mapStateToProps = state => ({
@@ -65,7 +65,7 @@ class DrawingPane extends React.Component {
     return (
       <View {...this._panResponder.panHandlers}>
         <Svg
-style={styles.container}
+          style={styles.container}
           height={Dimensions.get('window').height - 50}
           width={Dimensions.get('window').width}
         >
@@ -92,8 +92,9 @@ style={styles.container}
           }
 
         </Svg>
-        <SubmitDrawing
+        <SubmitButton
           onPress={() => this.handlePress(sendCoordinatesFromIOS, {portrait: this.props.polyLines})}
+          buttonText={'Submit Drawing!'}
         />
       </View>
     );

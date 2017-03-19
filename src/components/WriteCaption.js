@@ -1,36 +1,35 @@
 'use strict';
 
-var React = require('react');
-var ReactNative = require('react-native');
-var {
+import React from 'react';
+import ReactNative from 'react-native';
+const {
   StyleSheet,
   View,
 } = ReactNative;
-import Svg, { Text, Ellipse } from 'react-native-svg';
+
+import Svg, { Rect, Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+
 import Dimensions from 'Dimensions';
-import { writeCaption } from '../utils';
-import socket from '../socket';
 import SubmitButton from './SubmitButton';
+
+import { emitToSocket, newGuess } from '../utils';
+
+
 
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
 
-//REMOVE SUBMITBUTTON IN PRODUCTION (it's in for testing purposes only)
-
-class DrawingWait extends React.Component {
+class WriteCaption extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {caption: ''};
   }
 
-  componentWillMount() {
-    socket.on(writeCaption, () => {
-      Actions.drawkwardWriteCaption()
-    })
-  }
-  componentWillUnmount() {
-    socket.off(writeCaption);
+  handlePress(emitMsg, emitObj) {
+    emitToSocket(emitMsg, emitObj);
+    Actions.drawkwardDrawingWait();
   }
 
   render() {
@@ -50,13 +49,24 @@ class DrawingWait extends React.Component {
             fontWeight="bold"
             textAnchor="middle"
           >
-            Waiting for all drawings!
+            Write a caption for
+          </Text>
+          <Text
+            x={thisWidth / 2}
+            y={thisHeight / 2 + 20}
+            stroke="none"
+            color="black"
+            fontSize="20"
+            fontWeight="bold"
+            textAnchor="middle"
+          >
+            the drawing on the screen!
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => {Actions.drawkwardWriteCaption()}}
-          buttonText={'Go to WriteCaption Component!'}
-        />
+          onPress={() => this.handlePress(newGuess, this.state.caption)}
+          buttonText={'Submit Guess!'}
+          />
       </View>
     )
   }
@@ -69,4 +79,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DrawingWait;
+export default WriteCaption;
