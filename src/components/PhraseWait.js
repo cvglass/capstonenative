@@ -1,35 +1,36 @@
 'use strict';
 
-import React from 'react';
-import ReactNative from 'react-native';
-const {
+var React = require('react');
+var ReactNative = require('react-native');
+var {
   StyleSheet,
   View,
 } = ReactNative;
-
-import Svg, { Rect, Text } from 'react-native-svg';
+import Svg, { Text, Ellipse } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-
 import Dimensions from 'Dimensions';
+import { phraseOptions } from '../utils';
+import socket from '../socket';
 import SubmitButton from './SubmitButton';
-
-import { emitToSocket, newGuess } from '../utils';
-
-
 
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
 
-class WriteCaption extends React.Component {
+//REMOVE SUBMITBUTTON IN PRODUCTION (it's in for testing purposes only)
+
+class DrawingWait extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {caption: ''};
   }
 
-  handlePress(emitMsg, emitObj) {
-    emitToSocket(emitMsg, emitObj);
-    Actions.drawkwardPhraseWait();
+  componentWillMount() {
+    socket.on(phraseOptions, captionArray => {
+      Actions.drawkwardListCaptions({captions: captionArray})
+    })
+  }
+  componentWillUnmount() {
+    socket.off(phraseOptions);
   }
 
   render() {
@@ -49,24 +50,13 @@ class WriteCaption extends React.Component {
             fontWeight="bold"
             textAnchor="middle"
           >
-            Write a caption for
-          </Text>
-          <Text
-            x={thisWidth / 2}
-            y={thisHeight / 2 + 20}
-            stroke="none"
-            color="black"
-            fontSize="20"
-            fontWeight="bold"
-            textAnchor="middle"
-          >
-            the drawing on the screen!
+            Waiting for everyone to finish writing!
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => this.handlePress(newGuess, this.state.caption)}
-          buttonText={'Submit Guess!'}
-          />
+          onPress={() => {Actions.drawkwardWriteCaption()}}
+          buttonText={'Go to ListCaptions Component!'}
+        />
       </View>
     )
   }
@@ -79,4 +69,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default WriteCaption;
+export default DrawingWait;
