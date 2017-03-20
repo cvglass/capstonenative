@@ -4,19 +4,21 @@ import socket from './socket';
 //emit message constants
 
 export const sendCoordinatesFromIOS = 'sendCoordinatesFromIOS';
-export const newGuess = 'newGuess';
-export const selectCaption = 'selectCaption';
-export const newUser = 'newUser';
-export const sendStartGame = 'sendStartGame';
+export const newGuess = 'new guess';
+export const selectPhrase = 'select phrase';
+export const newUser = 'new user';
+export const sendStartGame = 'send start game';
 
 //receive message constants
-export const writeCaption = 'writeCaption';
-export const phraseOptions = 'phraseOptions';
-export const startGame = 'startGame'
-export const gameOver = 'gameOver';
-export const receiveRandomPhrase = 'receiveRandomPhrase';
+export const writeCaption = 'start caption'; // NOTE: startCaption on server-side
+export const phraseOptions = 'phrase options';
+export const startGame = 'start game';
+export const gameOver = 'game over';
+export const receiveRandomPhrase = 'receive random phrase';
+export const youAreTheArtist = 'you are the artist';
 
 //button press emit function
 export const emitToSocket = (emitMsg, emitObj) => {
+  console.log('emitted: ', emitMsg, emitObj)
   socket.emit(emitMsg, emitObj)
 }

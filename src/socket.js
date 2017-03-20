@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-const socket = io('http://172.28.118.145:1337', {
+const socket = io('http://172.28.118.242:1337', {
   transports: ['websocket']
 });
 
