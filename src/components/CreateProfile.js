@@ -6,8 +6,9 @@ var {
   PanResponder,
   StyleSheet,
   View,
+  TextInput,
 } = ReactNative;
-import Svg, { Polyline, Text} from 'react-native-svg';
+import Svg, { Polyline, Rect} from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
@@ -15,7 +16,7 @@ import { setPolyLines, clearPolyLines } from '../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
 import SubmitButton from './SubmitButton';
-import { emitToSocket, sendCoordinatesFromIOS } from '../utils';
+import { emitToSocket, newUser } from '../utils';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
@@ -25,16 +26,16 @@ const mapDispatchToProps = dispatch => ({
   setPolyLines: (polyLines) => dispatch(setPolyLines(polyLines)),
   clearPolyLines: () => dispatch(clearPolyLines()),
 })
-const thisHeight = Dimensions.get('window').height;
-const thisWidth = Dimensions.get('window').width;
 
-class DrawingPane extends React.Component {
+
+class CreateProfile extends React.Component {
   constructor(props) {
     super(props);
     this._panResponder = {};
     this.state = {
         coordinates: [],
         polyLines: [],
+        username: 'Enter your username here!',
     };
       this._handleStartShouldSetPanResponder = this._handleStartShouldSetPanResponder.bind(this);
       this._handleMoveShouldSetPanResponder = this._handleMoveShouldSetPanResponder.bind(this);
@@ -60,7 +61,7 @@ class DrawingPane extends React.Component {
     // return ((emitMsg, emitObj) => {
       emitToSocket(emitMsg, emitObj);
       this.props.clearPolyLines();
-      Actions.drawkwardDrawingWait();
+      Actions.drawkwardStartWait();
     // })
   }
 
@@ -69,8 +70,8 @@ class DrawingPane extends React.Component {
       <View {...this._panResponder.panHandlers}>
         <Svg
           style={styles.container}
-          height={thisHeight - 50}
-          width={thisWidth}
+          height={Dimensions.get('window').height - 80}
+          width={Dimensions.get('window').width}
         >
 
             <Polyline
@@ -94,22 +95,15 @@ class DrawingPane extends React.Component {
             })
           }
 
-          <Text
-            x={thisWidth / 2}
-            y={thisHeight - 80}
-            stroke="none"
-            color="black"
-            fontSize="20"
-            fontWeight="bold"
-            textAnchor="middle"
-          >
-            {/* this.props.phrase */}
-            Testing!
-          </Text>
         </Svg>
+        <TextInput
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(username) => this.setState({username})}
+          value={this.state.username}
+        />
         <SubmitButton
-          onPress={() => this.handlePress(sendCoordinatesFromIOS, {portrait: this.props.polyLines})}
-          buttonText={'Submit Drawing!'}
+          onPress={() => this.handlePress(newUser, {username: this.state.username, portrait: this.props.polyLines})}
+          buttonText={'Submit Profile!'}
         />
       </View>
     );
@@ -156,7 +150,7 @@ class DrawingPane extends React.Component {
         }))
       })
       .catch(err => {
-        console.error(err);
+        console.err(err);
       })
     } else {
       let updatePoly = new Promise((resolve, reject) => {
@@ -173,7 +167,7 @@ class DrawingPane extends React.Component {
         }))
       })
       .catch(err => {
-        console.error(err);
+        console.err(err);
       })
     }
 
@@ -188,4 +182,4 @@ var styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(DrawingPane);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);

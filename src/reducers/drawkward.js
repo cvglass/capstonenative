@@ -1,7 +1,7 @@
 //constants
 
 export const SET_POLYLINES = 'SET_POLYLINES';
-
+export const CLEAR = 'CLEAR';
 
 //initial reducer state
 const initialState = {
@@ -17,6 +17,9 @@ const drawkwardReducer = (prevState = initialState, action) => {
     case SET_POLYLINES:
       newState.polyLines = prevState.polyLines.concat([action.polyLines]);
       break;
+    case CLEAR:
+      newState.polyLines = [];
+      break;
     default:
       return prevState;
   }
@@ -31,6 +34,9 @@ export const setPolyLines = (polyLines) => ({
   polyLines
 });
 
+export const clearPolyLines = () => ({
+  type: CLEAR,
+})
 
 
 export default drawkwardReducer;
