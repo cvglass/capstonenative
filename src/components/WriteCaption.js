@@ -38,7 +38,7 @@ class WriteCaption extends React.Component {
       <View>
         <Svg
           style={styles.container}
-          height={thisHeight - 50}
+          height={thisHeight - 100}
           width={thisWidth}
         >
           <Text
@@ -65,10 +65,10 @@ class WriteCaption extends React.Component {
           </Text>
         </Svg>
         <TextInput
-        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-        onChangeText={(caption) => this.setState({caption})}
-        value={this.state.caption}
-      />
+          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          onChangeText={(caption) => this.setState({caption})}
+          value={this.state.caption}
+        />
         <SubmitButton
           onPress={() => this.handlePress(newGuess, this.state.caption)}
           buttonText={'Submit Guess!'}

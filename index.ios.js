@@ -13,15 +13,18 @@ import {
 } from 'react-native';
 
 import { Router, Scene } from 'react-native-router-flux';
-import socket from './src/socket'
-import { Provider } from 'react-redux'
-import store from './src/store'
+import socket from './src/socket';
+import { Provider } from 'react-redux';
+import store from './src/store';
 
+import CreateProfile from './src/components/CreateProfile';
+import StartWait from './src/components/StartWait';
 import DrawingPane from './src/components/DrawingPane';
 import DrawingWait from './src/components/DrawingWait';
 import WriteCaption from './src/components/WriteCaption';
 import PhraseWait from './src/components/PhraseWait';
-import ListCaptions from './src/components/ListCaptions'
+import ListCaptions from './src/components/ListCaptions';
+import GuessWait from './src/components/GuessWait';
 
 
 export default class capstonenative extends Component {
@@ -31,11 +34,14 @@ export default class capstonenative extends Component {
         <Router>
 
             <Scene key="drawkward">
-              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!" initial={true} />
+              <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} />
+              <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for all users" hideNavBar={true} />
+              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!" renderBackButton={false} />
               <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} />
               <Scene key="drawkwardWriteCaption" component={ WriteCaption } title="Write a caption!" hideNavBar={true} />
-              <Scene key="drawkwardPhraseWait" component={ PhraseWait } title="Waiting for Phrases!" hideNavBar={true} />
-              <Scene key="drawkwardListCaptions" component={ ListCaptions } title="Select the original title" hideNavBar={true}/>
+              <Scene key="drawkwardPhraseWait" component={ PhraseWait } title="Waiting for phrases!" hideNavBar={true} />
+              <Scene key="drawkwardListCaptions" component={ ListCaptions } title="Select the original title" hideNavBar={true} />
+              <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} />
             </Scene>
 
         </Router>
