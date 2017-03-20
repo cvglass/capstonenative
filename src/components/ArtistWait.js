@@ -44,7 +44,7 @@ class ArtistWait extends React.Component {
             fontWeight="bold"
             textAnchor="middle"
           >
-            You're the artist. Wait for the other players to guess.
+            You are the artist. Wait for the other players to guess.
           </Text>
         </Svg>
       </View>
