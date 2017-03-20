@@ -5,6 +5,7 @@ import ReactNative from 'react-native';
 const {
   StyleSheet,
   View,
+  TextInput,
 } = ReactNative;
 
 import Svg, { Rect, Text } from 'react-native-svg';
@@ -24,7 +25,7 @@ const thisWidth = Dimensions.get('window').width;
 class WriteCaption extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {caption: ''};
+    this.state = {caption: 'testing!'};
   }
 
   handlePress(emitMsg, emitObj) {
@@ -63,6 +64,11 @@ class WriteCaption extends React.Component {
             the drawing on the screen!
           </Text>
         </Svg>
+        <TextInput
+        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+        onChangeText={(caption) => this.setState({caption})}
+        value={this.state.caption}
+      />
         <SubmitButton
           onPress={() => this.handlePress(newGuess, this.state.caption)}
           buttonText={'Submit Guess!'}

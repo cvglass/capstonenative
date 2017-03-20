@@ -9,7 +9,7 @@ const {
 
 import { emitToSocket, selectCaption } from '../utils';
 import SubmitButton from './SubmitButton';
-
+import { Actions } from 'react-native-router-flux'
 
 class ListCaptions extends React.Component {
   constructor(props) {
@@ -24,9 +24,10 @@ class ListCaptions extends React.Component {
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column', justifyContent: 'space-around'}}>
-        {this.props.captions.map(caption => {
+        {this.props.captions.map((caption, i) => {
           return (
             <SubmitButton
+              key={i}
               onPress={() => this.handlePress(selectCaption, caption)}
               buttonText={caption}
             />
