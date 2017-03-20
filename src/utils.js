@@ -4,6 +4,7 @@ import socket from './socket';
 //emit message constants
 
 export const sendCoordinatesFromIOS = 'sendCoordinatesFromIOS';
+export const newDrawing = 'new drawing';
 export const newGuess = 'new guess';
 export const selectPhrase = 'select phrase';
 export const newUser = 'new user';

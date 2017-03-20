@@ -15,7 +15,7 @@ import { setPolyLines, clearPolyLines } from '../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
 import SubmitButton from './SubmitButton';
-import { emitToSocket, sendCoordinatesFromIOS } from '../utils';
+import { emitToSocket, newDrawing } from '../utils';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
@@ -103,12 +103,11 @@ class DrawingPane extends React.Component {
             fontWeight="bold"
             textAnchor="middle"
           >
-            {/* this.props.phrase */}
-            Testing!
+            {this.props.phrase}
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => this.handlePress(sendCoordinatesFromIOS, {portrait: this.props.polyLines})}
+          onPress={() => this.handlePress(newDrawing, {portrait: this.props.polyLines})}
           buttonText={'Submit Drawing!'}
         />
       </View>
