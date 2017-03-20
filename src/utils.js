@@ -12,6 +12,7 @@ export const sendStartGame = 'sendStartGame';
 //receive message constants
 export const writeCaption = 'writeCaption';
 export const phraseOptions = 'phraseOptions';
+export const startGame = 'startGame'
 export const gameOver = 'gameOver';
 export const receiveRandomPhrase = 'receiveRandomPhrase';
 
