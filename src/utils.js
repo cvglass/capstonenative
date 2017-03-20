@@ -10,6 +10,7 @@ export const selectCaption = 'selectCaption';
 //receive message constants
 export const writeCaption = 'writeCaption';
 export const phraseOptions = 'phraseOptions';
+export const gameOver = 'gameOver';
 
 //button press emit function
 export const emitToSocket = (emitMsg, emitObj) => {

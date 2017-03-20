@@ -38,7 +38,7 @@ class WriteCaption extends React.Component {
       <View>
         <Svg
           style={styles.container}
-          height={thisHeight - 50}
+          height={thisHeight - 100}
           width={thisWidth}
         >
           <Text
