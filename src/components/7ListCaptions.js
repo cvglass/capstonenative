@@ -7,7 +7,7 @@ const {
   View,
 } = ReactNative;
 
-import { emitToSocket, selectCaption } from '../utils';
+import { emitToSocket, selectPhrase } from '../utils';
 import SubmitButton from './SubmitButton';
 import { Actions } from 'react-native-router-flux'
 
@@ -28,7 +28,7 @@ class ListCaptions extends React.Component {
           return (
             <SubmitButton
               key={i}
-              onPress={() => this.handlePress(selectCaption, caption)}
+              onPress={() => this.handlePress(selectPhrase, caption)}
               buttonText={caption}
             />
           )

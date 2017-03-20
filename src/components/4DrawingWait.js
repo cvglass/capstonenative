@@ -10,7 +10,7 @@ import Svg, { Text, Ellipse } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Dimensions from 'Dimensions';
-import { writeCaption } from '../utils';
+import { writeCaption, youAreTheArtist } from '../utils';
 import socket from '../socket';
 import SubmitButton from './SubmitButton';
 
@@ -25,11 +25,15 @@ class DrawingWait extends React.Component {
   }
 
   componentWillMount() {
+    socket.on(youAreTheArtist, () => {
+      Actions.drawkwardArtistWait();
+    })
     socket.on(writeCaption, () => {
-      Actions.drawkwardWriteCaption()
+      Actions.drawkwardWriteCaption();
     })
   }
   componentWillUnmount() {
+    socket.off(youAreTheArtist);
     socket.off(writeCaption);
   }
 
