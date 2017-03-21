@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
 import socket from '../socket';
 import SubmitButton from './SubmitButton';
-import { emitToSocket, nextDrawing } from '../utils'
+import { emitToSocket, nextDrawing, startGame } from '../utils'
 
 
 const thisHeight = Dimensions.get('window').height;
