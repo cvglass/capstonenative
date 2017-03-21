@@ -65,6 +65,19 @@ class CreateProfile extends React.Component {
     // })
   }
 
+  convertImgStrToNums(polyLines) {
+    let numsArr = polyLines.map(arr => {
+      return arr
+      .filter((point, i) => {
+        return (i % 2 === 0)
+      })
+      .map(point => {
+        return +point;
+      })
+    })
+    return numsArr;
+  }
+
   render() {
     return (
       <View {...this._panResponder.panHandlers}>

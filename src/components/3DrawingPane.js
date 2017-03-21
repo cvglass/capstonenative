@@ -64,6 +64,19 @@ class DrawingPane extends React.Component {
     // })
   }
 
+  convertImgStrToNums(polyLines) {
+    let numsArr = polyLines.map(arr => {
+      return arr
+      .filter((point, i) => {
+        return (i % 2 === 0)
+      })
+      .map(point => {
+        return +point;
+      })
+    })
+    return numsArr;
+  }
+
   render() {
     return (
       <View {...this._panResponder.panHandlers}>
@@ -107,7 +120,10 @@ class DrawingPane extends React.Component {
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => this.handlePress(newDrawing, {portrait: this.props.polyLines})}
+          onPress={() => this.handlePress(newDrawing, {
+            image: this.convertImgStrToNums(this.props.polyLines),
+            phrase: this.props.phrase,
+          })}
           buttonText={'Submit Drawing!'}
         />
       </View>
