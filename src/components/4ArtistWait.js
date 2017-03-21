@@ -5,7 +5,7 @@ import ReactNative from 'react-native';
 const { StyleSheet, View } = ReactNative;
 import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
-import { writeCaption } from '../utils';
+import { writeCaption, scoreboard } from '../utils';
 import socket from '../socket';
 import Dimensions from 'Dimensions';
 
@@ -21,10 +21,15 @@ class ArtistWait extends React.Component {
     socket.on(writeCaption, () => {
       Actions.drawkwardWriteCaption()
     })
+    socket.on(scoreboard, () => {
+      console.log('hi!')
+      Actions.drawkwardEndRound();
+    })
   }
 
   componentWillUnmount() {
-    socket.off(writeCaption)
+    socket.off(writeCaption);
+    socket.off(scoreboard);
   }
 
   render() {
