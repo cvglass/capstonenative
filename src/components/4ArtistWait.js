@@ -22,7 +22,7 @@ class ArtistWait extends React.Component {
       Actions.drawkwardWriteCaption()
     })
     socket.on(scoreboard, () => {
-      console.log('hi!')
+      // console.log('hi!')
       Actions.drawkwardEndRound();
     })
   }
