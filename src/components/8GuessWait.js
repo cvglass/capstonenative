@@ -32,6 +32,7 @@ class GuessWait extends React.Component {
       Actions.drawkwardGameOver();
     });
     socket.on(scoreboard, () => {
+      console.log('hi!')
       Actions.drawkwardEndRound();
     })
   }
