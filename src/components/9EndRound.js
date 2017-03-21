@@ -1,44 +1,41 @@
 'use strict';
 
-var React = require('react');
-var ReactNative = require('react-native');
-var {
-  StyleSheet,
-  View,
-} = ReactNative;
-import Svg, { Text, Ellipse } from 'react-native-svg';
+import React from 'react';
+import ReactNative from 'react-native';
+const { StyleSheet, View } = ReactNative;
+import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
-import { connect } from 'react-redux';
 import Dimensions from 'Dimensions';
-import { writeCaption, gameOver, scoreboard } from '../utils';
 import socket from '../socket';
 import SubmitButton from './SubmitButton';
+import { emitToSocket, nextDrawing } from '../utils'
+
 
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
 
-//REMOVE SUBMITBUTTON IN PRODUCTION (it's in for testing purposes only)
 
-class GuessWait extends React.Component {
+class EndRound extends React.Component {
   constructor(props) {
     super(props);
+    this.handlePress = this.handlePress.bind(this);
+  }
+
+  handlePress(emitMsg, emitObj) {
+    // return ((emitMsg, emitObj) => {
+      emitToSocket(emitMsg, emitObj);
+      // Actions.drawkwardStartWait();
+    // })
   }
 
   componentWillMount() {
-    socket.on(writeCaption, () => {
-      Actions.drawkwardWriteCaption();
-    });
-    socket.on(gameOver, () => {
-      Actions.drawkwardGameOver();
-    });
-    socket.on(scoreboard, () => {
-      Actions.drawkwardEndRound();
+    socket.on(startGame, () => {
+      Actions.drawkwardDrawingPane()
     })
   }
+
   componentWillUnmount() {
-    socket.off(writeCaption);
-    socket.off(gameOver);
-    socket.off(scoreboard);
+    socket.off(startGame)
   }
 
   render() {
@@ -58,17 +55,16 @@ class GuessWait extends React.Component {
             fontWeight="bold"
             textAnchor="middle"
           >
-            Waiting for all guesses!
+            Check the monitor for your scores!
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => {Actions.drawkwardWriteCaption()}}
-          buttonText={'Go to WriteCaption Component!'}
+          onPress={() => {this.handlePress(nextDrawing)}}
+          buttonText={'Ready for next drawing!'}
         />
       </View>
     )
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -77,4 +73,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default GuessWait;
+export default EndRound
