@@ -115,6 +115,7 @@ class DrawingPane extends React.Component {
             fontSize="20"
             fontWeight="bold"
             textAnchor="middle"
+            fontFamily="Amatic SC"
           >
             {this.props.phrase}
           </Text>
@@ -199,7 +200,7 @@ class DrawingPane extends React.Component {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#C1C2C3'
+    backgroundColor: 'white'
   }
 });
 

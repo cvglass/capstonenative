@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -37,6 +36,9 @@
 		56DA8125352A413990AFE8DF /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BD00DEDA995B41D385B25A64 /* libRNSVG.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		7C261F08B9174853AE2326E0 /* AmaticSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41F5DCAD9DC14D658323FE42 /* AmaticSC-Bold.ttf */; };
+		84D10E8F25CE4CB39AED3F9D /* AmaticSC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D2634D1A95FF424196EA068E /* AmaticSC-Regular.ttf */; };
+		B10FCA238CEC4C328CA61F47 /* IndieFlower.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AD106E09DB8F49E5AADE2A72 /* IndieFlower.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -265,6 +267,9 @@
 		7AFD126409804EDA9EC1F6CA /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		BD00DEDA995B41D385B25A64 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
+		41F5DCAD9DC14D658323FE42 /* AmaticSC-Bold.ttf */ = {isa = PBXFileReference; name = "AmaticSC-Bold.ttf"; path = "../src/assets/fonts/AmaticSC-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D2634D1A95FF424196EA068E /* AmaticSC-Regular.ttf */ = {isa = PBXFileReference; name = "AmaticSC-Regular.ttf"; path = "../src/assets/fonts/AmaticSC-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AD106E09DB8F49E5AADE2A72 /* IndieFlower.ttf */ = {isa = PBXFileReference; name = "IndieFlower.ttf"; path = "../src/assets/fonts/IndieFlower.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -487,6 +492,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* capstonenativeTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				F8D8AF552FA8407E91ED31BA /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -501,6 +507,17 @@
 				2D02E4901E0B4A5D006451C7 /* capstonenative-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F8D8AF552FA8407E91ED31BA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				41F5DCAD9DC14D658323FE42 /* AmaticSC-Bold.ttf */,
+				D2634D1A95FF424196EA068E /* AmaticSC-Regular.ttf */,
+				AD106E09DB8F49E5AADE2A72 /* IndieFlower.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -876,6 +893,9 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				7C261F08B9174853AE2326E0 /* AmaticSC-Bold.ttf in Resources */,
+				84D10E8F25CE4CB39AED3F9D /* AmaticSC-Regular.ttf in Resources */,
+				B10FCA238CEC4C328CA61F47 /* IndieFlower.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

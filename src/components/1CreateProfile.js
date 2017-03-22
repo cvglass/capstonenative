@@ -83,7 +83,7 @@ class CreateProfile extends React.Component {
       <View {...this._panResponder.panHandlers}>
         <Svg
           style={styles.container}
-          height={Dimensions.get('window').height - 80}
+          height={Dimensions.get('window').height - 110}
           width={Dimensions.get('window').width}
         >
 
@@ -110,10 +110,11 @@ class CreateProfile extends React.Component {
 
         </Svg>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
           onChangeText={(username) => this.setState({username})}
           placeholder={this.state.username}
         />
+      <View style={{height: 5}} />
         <SubmitButton
           onPress={() => this.handlePress(newUser, {
             username: this.state.username,
@@ -194,7 +195,7 @@ class CreateProfile extends React.Component {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#C1C2C3'
+    backgroundColor: 'white'
   }
 });
 

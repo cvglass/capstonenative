@@ -43,18 +43,19 @@ class DrawingWait extends React.Component {
         >
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2}
+            y={thisHeight / 2 - 50}
             stroke="none"
             color="black"
             fontSize="20"
             fontWeight="bold"
             textAnchor="middle"
+            fontFamily="Amatic SC"
           >
             Waiting for everyone to finish writing!
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => {Actions.drawkwardListCaptions({captions: ['test1', 'test2']})}}
+          onPress={() => {Actions.drawkwardListCaptions({captions: ['AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', 'test2', 'test', 'this isn\'t fine', 'but hopefully', 'this is fine']})}}
           buttonText={'Go to ListCaptions Component!'}
         />
       </View>
@@ -65,7 +66,7 @@ class DrawingWait extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#C1C2C3'
+    backgroundColor: 'white'
   }
 });
 

@@ -25,7 +25,7 @@ const thisWidth = Dimensions.get('window').width;
 class WriteCaption extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {caption: 'testing!'};
+    this.state = {caption: 'Write a caption!'};
   }
 
   handlePress(emitMsg, emitObj) {
@@ -43,32 +43,37 @@ class WriteCaption extends React.Component {
         >
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2}
+            y={thisHeight / 2 - 70}
             stroke="none"
             color="black"
             fontSize="20"
             fontWeight="bold"
             textAnchor="middle"
+            fontFamily="Amatic SC"
           >
             Write a caption for
           </Text>
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2 + 20}
+            y={thisHeight / 2 - 50}
             stroke="none"
             color="black"
             fontSize="20"
             fontWeight="bold"
             textAnchor="middle"
+            fontFamily="Amatic SC"
           >
             the drawing on the screen!
           </Text>
         </Svg>
+
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
           onChangeText={(caption) => this.setState({caption})}
           placeholder={this.state.caption}
+          maxLength={45}
         />
+        <View style={{height: 5}} />
         <SubmitButton
           onPress={() => this.handlePress(newGuess, this.state.caption)}
           buttonText={'Submit Guess!'}
@@ -81,7 +86,7 @@ class WriteCaption extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#C1C2C3'
+    backgroundColor: 'white'
   }
 });
 
