@@ -115,7 +115,10 @@ class CreateProfile extends React.Component {
           value={this.state.username}
         />
         <SubmitButton
-          onPress={() => this.handlePress(newUser, {username: this.state.username, portrait: this.props.polyLines})}
+          onPress={() => this.handlePress(newUser, {
+            username: this.state.username,
+            portrait: this.convertImgStrToNums(this.props.polyLines),
+          })}
           buttonText={'Submit Profile!'}
         />
       </View>
