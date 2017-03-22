@@ -67,7 +67,7 @@ class WriteCaption extends React.Component {
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(caption) => this.setState({caption})}
-          value={this.state.caption}
+          placeholder={this.state.caption}
         />
         <SubmitButton
           onPress={() => this.handlePress(newGuess, this.state.caption)}

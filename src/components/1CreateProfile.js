@@ -112,7 +112,7 @@ class CreateProfile extends React.Component {
         <TextInput
           style={{height: 40, borderColor: 'gray', borderWidth: 1}}
           onChangeText={(username) => this.setState({username})}
-          value={this.state.username}
+          placeholder={this.state.username}
         />
         <SubmitButton
           onPress={() => this.handlePress(newUser, {
