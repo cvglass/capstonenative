@@ -42,15 +42,28 @@ class ArtistWait extends React.Component {
         >
         <Text
             x={thisWidth / 2}
-            y={thisHeight / 2}
+            y={thisHeight / 2 - 50}
             stroke="none"
             color="black"
             fontSize="20"
             fontWeight="bold"
             textAnchor="middle"
+            fontFamily="Amatic SC"
           >
-            You are the artist. Wait for the other players to guess.
+            You are the artist.
           </Text>
+          <Text
+              x={thisWidth / 2}
+              y={thisHeight / 2 - 20}
+              stroke="none"
+              color="black"
+              fontSize="20"
+              fontWeight="bold"
+              textAnchor="middle"
+              fontFamily="Amatic SC"
+            >
+               Wait for the other players to guess.
+            </Text>
         </Svg>
       </View>
     )
@@ -59,7 +72,7 @@ class ArtistWait extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#C1C2C3'
+    backgroundColor: 'white'
   }
 });
 

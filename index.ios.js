@@ -34,7 +34,7 @@ export default class capstonenative extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
+        <Router titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'normal', fontSize: 25}}>
 
             <Scene key="drawkward">
               <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} />

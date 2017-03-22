@@ -26,8 +26,8 @@ class SubmitButton extends React.Component {
   render() {
     return (
       <Button
-       containerStyle={{padding: 10, height: 45, overflow: 'hidden', borderRadius: 4, backgroundColor: '#92b2e5'}}
-       style={{fontSize: 20, color: 'white'}}
+       containerStyle={{padding: 10, height: 45, overflow: 'hidden', backgroundColor: '#E0FFFF', borderRadius: 10, borderColor: 'black', borderWidth: 1}}
+       style={{fontSize: 22, color: 'black', lineHeight: 25, fontFamily: 'Amatic SC'}}
        onPress={this.onButtonPress}>
 
         {this.props.buttonText}
