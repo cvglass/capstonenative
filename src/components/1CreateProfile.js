@@ -80,48 +80,50 @@ class CreateProfile extends React.Component {
 
   render() {
     return (
-      <View {...this._panResponder.panHandlers}>
-        <Svg
-          style={styles.container}
-          height={Dimensions.get('window').height - 110}
-          width={Dimensions.get('window').width}
-        >
+      <View style={styles.padTop}>
+        <View {...this._panResponder.panHandlers}>
+          <Svg
+            style={styles.container}
+            height={Dimensions.get('window').height - 110}
+            width={Dimensions.get('window').width}
+          >
 
-            <Polyline
-              points={`${this.state.coordinates.slice(0, -1).join('')}`}
-              fill="none"
-              stroke="blue"
-              strokeWidth="2"
-              />
-
-          {
-            this.props.polyLines.map((line, i) => {
-              return (
-                <Polyline
-                  key={i}
-                  points={line.slice(0, -1).join('')}
-                  fill="none"
-                  stroke="black"
-                  strokeWidth="2"
+              <Polyline
+                points={`${this.state.coordinates.slice(0, -1).join('')}`}
+                fill="none"
+                stroke="blue"
+                strokeWidth="2"
                 />
-              )
-            })
-          }
 
-        </Svg>
-        <TextInput
-          style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
-          onChangeText={(username) => this.setState({username})}
-          placeholder={this.state.username}
-        />
-      <View style={{height: 5}} />
-        <SubmitButton
-          onPress={() => this.handlePress(newUser, {
-            username: this.state.username,
-            portrait: this.convertImgStrToNums(this.props.polyLines),
-          })}
-          buttonText={'Submit Profile!'}
-        />
+            {
+              this.props.polyLines.map((line, i) => {
+                return (
+                  <Polyline
+                    key={i}
+                    points={line.slice(0, -1).join('')}
+                    fill="none"
+                    stroke="black"
+                    strokeWidth="2"
+                  />
+                )
+              })
+            }
+
+          </Svg>
+          <TextInput
+            style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
+            onChangeText={(username) => this.setState({username})}
+            placeholder={this.state.username}
+          />
+        <View style={{height: 5}} />
+          <SubmitButton
+            onPress={() => this.handlePress(newUser, {
+              username: this.state.username,
+              portrait: this.convertImgStrToNums(this.props.polyLines),
+            })}
+            buttonText={'Submit Profile!'}
+          />
+        </View>
       </View>
     );
   }
@@ -196,6 +198,9 @@ class CreateProfile extends React.Component {
 var styles = StyleSheet.create({
   container: {
     backgroundColor: 'white'
+  },
+  padTop: {
+    paddingTop: 64
   }
 });
 
