@@ -19,9 +19,24 @@ export const gameOver = 'game over';
 export const receiveRandomPhrase = 'receive random phrase';
 export const youAreTheArtist = 'you are the artist';
 export const scoreboard = 'scoreboard';
+export const FORCE_SUBMIT_DRAWING = 'force submit drawing';
 
 //button press emit function
 export const emitToSocket = (emitMsg, emitObj) => {
   console.log('emitted: ', emitMsg, emitObj)
   socket.emit(emitMsg, emitObj)
+}
+
+
+export const colors = {
+  black: 'black',
+  red: 'red',
+  orange: 'orange',
+  yellow: 'yellow',
+  green: 'green',
+  blue: 'blue',
+  purple: 'purple',
+  pink: 'pink',
+  brown: 'brown',
+  grey: 'grey',
 }

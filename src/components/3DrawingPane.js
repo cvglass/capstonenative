@@ -11,11 +11,14 @@ import Svg, { Polyline, Text} from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
+import socket from '../socket';
+
 import { setPolyLines, clearPolyLines } from '../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
 import SubmitButton from './SubmitButton';
-import { emitToSocket, newDrawing } from '../utils';
+import { emitToSocket, newDrawing, FORCE_SUBMIT_DRAWING, colors } from '../utils';
+import ColorPicker from './ColorPicker';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
@@ -27,6 +30,9 @@ const mapDispatchToProps = dispatch => ({
 })
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
+
+const TOP_PADDING = 196;
+const BOT_PADDING = 48;
 
 class DrawingPane extends React.Component {
   constructor(props) {
@@ -46,6 +52,7 @@ class DrawingPane extends React.Component {
 
 
   componentWillMount() {
+    console.log('this.props.prhase', this.props.phrase)
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -54,6 +61,18 @@ class DrawingPane extends React.Component {
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
+
+    socket.on(FORCE_SUBMIT_DRAWING, () => {emitToSocket(newDrawing,
+      {
+        image: this.convertImgStrToNums(this.props.polyLines),
+        phrase: this.props.phrase,
+      })
+      this.props.clearPolyLines();
+      Actions.drawkwardDrawingWait();
+    })
+  }
+  componentWillUnmount() {
+    socket.off(FORCE_SUBMIT_DRAWING);
   }
 
   handlePress(emitMsg, emitObj) {
@@ -79,54 +98,61 @@ class DrawingPane extends React.Component {
 
   render() {
     return (
-      <View {...this._panResponder.panHandlers}>
-        <Svg
-          style={styles.container}
-          height={thisHeight - 50}
-          width={thisWidth}
-        >
-
-            <Polyline
-              points={`${this.state.coordinates.slice(0, -1).join('')}`}
-              fill="none"
-              stroke="blue"
-              strokeWidth="2"
-              />
-
-          {
-            this.props.polyLines.map((line, i) => {
-              return (
-                <Polyline
-                  key={i}
-                  points={line.slice(0, -1).join('')}
-                  fill="none"
-                  stroke="black"
-                  strokeWidth="2"
-                />
-              )
-            })
-          }
-
-          <Text
-            x={thisWidth / 2}
-            y={thisHeight - 80}
-            stroke="none"
-            color="black"
-            fontSize="20"
-            fontWeight="bold"
-            textAnchor="middle"
-            fontFamily="Amatic SC"
+      <View style={styles.padTop}>
+        <View style={styles.colorPicker}>
+          <View style={styles.colorPickerContainer}>
+            <ColorPicker />
+          </View>
+        </View>
+        <View {...this._panResponder.panHandlers}>
+          <Svg
+            style={styles.container}
+            height={thisHeight - TOP_PADDING - BOT_PADDING}
+            width={thisWidth}
           >
-            {this.props.phrase}
-          </Text>
-        </Svg>
-        <SubmitButton
-          onPress={() => this.handlePress(newDrawing, {
-            image: this.convertImgStrToNums(this.props.polyLines),
-            phrase: this.props.phrase,
-          })}
-          buttonText={'Submit Drawing!'}
-        />
+
+              <Polyline
+                points={`${this.state.coordinates.slice(0, -1).join('')}`}
+                fill="none"
+                stroke="blue"
+                strokeWidth="2"
+                />
+
+            {
+              this.props.polyLines.map((line, i) => {
+                return (
+                  <Polyline
+                    key={i}
+                    points={line.slice(0, -1).join('')}
+                    fill="none"
+                    stroke="black"
+                    strokeWidth="2"
+                  />
+                )
+              })
+            }
+
+            <Text
+              x={thisWidth / 2}
+              y={thisHeight / 2}
+              stroke="none"
+              color="black"
+              fontSize="20"
+              fontWeight="bold"
+              textAnchor="middle"
+              fontFamily="Amatic SC"
+            >
+              {this.props.phrase}
+            </Text>
+          </Svg>
+          <SubmitButton
+            onPress={() => this.handlePress(newDrawing, {
+              image: this.convertImgStrToNums(this.props.polyLines),
+              phrase: this.props.phrase,
+            })}
+            buttonText={'Submit Drawing!'}
+          />
+        </View>
       </View>
     );
   }
@@ -142,18 +168,20 @@ class DrawingPane extends React.Component {
   _handlePanResponderGrant(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ))
   }
 
   _handlePanResponderMove(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ))
   }
 
   _handlePanResponderEnd(e, gestureState) {
+    console.log('height', Dimensions.get('window').height - TOP_PADDING - BOT_PADDING)
+    console.log('width', Dimensions.get('window').width)
 
     if (this.state.coordinates.length === 4) {
       let newPoint = this.state.coordinates.slice();
@@ -201,7 +229,22 @@ class DrawingPane extends React.Component {
 var styles = StyleSheet.create({
   container: {
     backgroundColor: 'white'
-  }
+  },
+  padTop: {
+    paddingTop: 64,
+    flex: 1,
+    // justifyContent: 'flex-end'
+  },
+  colorPicker: {
+    height: 132,
+    backgroundColor: '#E0FFFF'
+  },
+  colorPickerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawingPane);
