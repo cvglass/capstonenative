@@ -30,7 +30,7 @@ class ColorPicker extends React.Component {
   render() {
     return (
       <TouchableHighlight
-          onPress={() => this.onButtonPress(this.props.color)} underlayColor="#E0FFFF" style={{
+          onPress={() => this.onButtonPress(this.props.color)} underlayColor="white" style={{
           marginHorizontal: 10,
           marginVertical: 3}}>
         <View
