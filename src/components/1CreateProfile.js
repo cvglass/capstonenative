@@ -8,7 +8,7 @@ var {
   View,
   TextInput,
 } = ReactNative;
-import Svg, { Polyline, Rect} from 'react-native-svg';
+import Svg, { Polyline } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
@@ -16,16 +16,21 @@ import { setPolyLines, clearPolyLines } from '../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
 import SubmitButton from './SubmitButton';
-import { emitToSocket, newUser } from '../utils';
+import { emitToSocket, newUser, colors } from '../utils';
+import ColorPicker from './ColorPicker';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
+  color: state.drawkward.color,
 });
 
 const mapDispatchToProps = dispatch => ({
   setPolyLines: (polyLines) => dispatch(setPolyLines(polyLines)),
   clearPolyLines: () => dispatch(clearPolyLines()),
 })
+
+const TOP_PADDING = 196;
+const BOT_PADDING = 96;
 
 
 class CreateProfile extends React.Component {
@@ -67,61 +72,78 @@ class CreateProfile extends React.Component {
 
   convertImgStrToNums(polyLines) {
     let numsArr = polyLines.map(arr => {
-      return arr
+      return ({line: arr.line
       .filter((point, i) => {
         return (i % 2 === 0)
       })
       .map(point => {
         return +point;
-      })
+      }), color: arr.color})
     })
     return numsArr;
   }
 
   render() {
     return (
-      <View {...this._panResponder.panHandlers}>
-        <Svg
-          style={styles.container}
-          height={Dimensions.get('window').height - 110}
-          width={Dimensions.get('window').width}
-        >
+      <View style={styles.padTop}>
+        <View style={styles.colorPicker}>
+          <View style={styles.colorPickerContainer}>
+            {
+              Object.keys(colors).map((color, i) => {
+                return (
+                  <ColorPicker key={i} color={color} />
+                )
+              })
+            }
 
-            <Polyline
-              points={`${this.state.coordinates.slice(0, -1).join('')}`}
-              fill="none"
-              stroke="blue"
-              strokeWidth="2"
-              />
+          </View>
+        </View>
+        <View style={{height: 1, backgroundColor: 'black'}} />
+        <View {...this._panResponder.panHandlers}>
+          <Svg
+            style={styles.container}
+            height={Dimensions.get('window').height - TOP_PADDING - BOT_PADDING}
+            width={Dimensions.get('window').width}
+          >
 
           {
             this.props.polyLines.map((line, i) => {
               return (
                 <Polyline
                   key={i}
-                  points={line.slice(0, -1).join('')}
+                  points={line.line.slice(0, -1).join('')}
                   fill="none"
-                  stroke="black"
+                  stroke={line.color}
                   strokeWidth="2"
-                />
+                  />
               )
             })
           }
+              <Polyline
+                points={`${this.state.coordinates.slice(0, -1).join('')}`}
+                fill="none"
+                stroke={this.props.color}
+                strokeWidth="2"
+                />
 
-        </Svg>
-        <TextInput
-          style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
-          onChangeText={(username) => this.setState({username})}
-          placeholder={this.state.username}
-        />
-      <View style={{height: 5}} />
-        <SubmitButton
-          onPress={() => this.handlePress(newUser, {
-            username: this.state.username,
-            portrait: this.convertImgStrToNums(this.props.polyLines),
-          })}
-          buttonText={'Submit Profile!'}
-        />
+
+          </Svg>
+        </View>
+        <View style={styles.botContainer}>
+            <TextInput
+              style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 28, paddingHorizontal: 10}}
+              onChangeText={(username) => this.setState({username})}
+              placeholder={this.state.username}
+            />
+            <View style={{height: 5}} />
+            <SubmitButton
+              onPress={() => this.handlePress(newUser, {
+                username: this.state.username,
+                portrait: this.convertImgStrToNums(this.props.polyLines),
+              })}
+              buttonText={'Submit Profile!'}
+            />
+        </View>
       </View>
     );
   }
@@ -137,41 +159,42 @@ class CreateProfile extends React.Component {
   _handlePanResponderGrant(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ))
   }
 
   _handlePanResponderMove(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ))
   }
 
   _handlePanResponderEnd(e, gestureState) {
+
 
     if (this.state.coordinates.length === 4) {
       let newPoint = this.state.coordinates.slice();
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
       let newCoords = this.state.coordinates.concat(newPoint)
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(newCoords);
+        this.props.setPolyLines({line: newCoords, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
       })
       .then(() => {
         this.setState((prevState, props) => ({
-          polyLines: prevState.polyLines.concat([newCoords]),
+          // polyLines: prevState.polyLines.concat([newCoords]),
           coordinates: [],
         }))
       })
       .catch(err => {
-        console.err(err);
+        console.error(err);
       })
     } else {
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(this.state.coordinates);
+        this.props.setPolyLines({line: this.state.coordinates, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
@@ -179,12 +202,12 @@ class CreateProfile extends React.Component {
       .then(() => {
         this.setState((prevState, props) => ({
           // this.props.setPolyLines(this.state.coordinates)
-          polyLines: prevState.polyLines.concat([prevState.coordinates]),
+          // polyLines: prevState.polyLines.concat([prevState.coordinates]),
           coordinates: [],
         }))
       })
       .catch(err => {
-        console.err(err);
+        console.error(err);
       })
     }
 
@@ -195,8 +218,32 @@ class CreateProfile extends React.Component {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'white',
+
+  },
+  botContainer: {
+
+
+
+  },
+  padTop: {
+    paddingTop: 64,
+    flex: 1,
+    // justifyContent: 'flex-end'
+  },
+  colorPicker: {
+    height: 132,
+    backgroundColor: 'white',
+    // backgroundColor: '#E0FFFF',
+  },
+  colorPickerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
+
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProfile);
