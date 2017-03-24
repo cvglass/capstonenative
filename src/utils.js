@@ -12,6 +12,7 @@ export const sendStartGame = 'send start game';
 export const nextDrawing = 'next drawing';
 export const JOIN_ROOM = 'join room';
 
+
 //receive message constants
 export const writeCaption = 'start caption'; // NOTE: startCaption on server-side
 export const phraseOptions = 'phrase options';
@@ -24,12 +25,24 @@ export const FORCE_SUBMIT_DRAWING = 'force submit drawing';
 export const SEND_TO_DRAWKWARD = 'send to drawkward';
 export const SEND_TO_PICTIONARY = 'send to pictionary'
 
+//pictionary
+
+//emit message constants
+export const NEW_TEAM = 'new team';
+export const FETCH_NEXT_WORD = 'next word';
+export const CORRECT_GUESS = 'correct guess';
+export const SKIP = 'skip';
+export const NEW_LINE = 'new line';
+export const NEW_COORDINATES = 'new coordinates';
+
+//receive message constants
+export const RECEIVE_NEW_WORD = 'receive new word';
+
 //button press emit function
 export const emitToSocket = (emitMsg, emitObj) => {
   console.log('emitted: ', emitMsg, emitObj)
   socket.emit(emitMsg, emitObj)
 }
-
 
 export const colors = {
   black: 'black',

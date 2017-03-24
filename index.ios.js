@@ -31,11 +31,16 @@ import GuessWait from './src/components/8GuessWait';
 import EndRound from './src/components/9EndRound';
 import GameOver from './src/components/9GameOver';
 
+//pictionary
+import CreateTeamProfile from './src/components/pictionary/CreateTeamProfile';
+import PictionaryStartWait from './src/components/pictionary/StartWait';
+import PictionaryDrawingPane from './src/components/pictionary/DrawingPane';
 
 export default class capstonenative extends Component {
   render() {
     return (
       <Provider store={store}>
+
         <Router navigationBarStyle={{backgroundColor: 'white',  borderBottomColor: 'black', borderBottomWidth: 1 }} titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 31, backgroundColor: 'transparent'}}>
             <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!"  />
             <Scene key="drawkward" initial={true} >
@@ -50,9 +55,10 @@ export default class capstonenative extends Component {
               <Scene key="drawkwardEndRound" component={ EndRound } hideNavBar={true} />
               <Scene key="drawkwardGameOver" component={ GameOver } title="Game Over" hideNavBar={true} />
               <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} />
-
+              <Scene key="pictionaryCreateProfile" component={CreateTeamProfile} initial={true} />
+              <Scene key="pictionaryStartWait" component={PictionaryStartWait} />
+              <Scene key="pictionaryDrawingPane" component={PictionaryDrawingPane} />
             </Scene>
-
         </Router>
       </Provider>
     );
