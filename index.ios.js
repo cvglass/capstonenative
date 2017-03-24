@@ -34,11 +34,11 @@ export default class capstonenative extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 25}}>
+        <Router navigationBarStyle={{backgroundColor: 'white',  borderBottomColor: 'black', borderBottomWidth: 1 }} titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 31, backgroundColor: 'transparent'}}>
 
             <Scene key="drawkward">
               <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} />
-              <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for all users" renderBackButton={() => (null)} />
+              <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for users" renderBackButton={() => (null)} />
               <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!"  renderBackButton={() => (null)} />
               <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} />
               <Scene key="drawkwardArtistWait" component={ ArtistWait } title="Artist - Wait" hideNavBar={true} />

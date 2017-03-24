@@ -68,7 +68,7 @@ class WriteCaption extends React.Component {
         </Svg>
 
         <TextInput
-          style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
+          style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 28, paddingHorizontal: 10}}
           onChangeText={(caption) => this.setState({caption})}
           placeholder={this.state.caption}
           maxLength={45}

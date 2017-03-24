@@ -98,6 +98,7 @@ class CreateProfile extends React.Component {
             <ColorPicker />
           </View>
         </View>
+        <View style={{height: 1, backgroundColor: 'black'}} />
         <View {...this._panResponder.panHandlers}>
           <Svg
             style={styles.container}
@@ -130,7 +131,7 @@ class CreateProfile extends React.Component {
         </View>
         <View style={styles.botContainer}>
             <TextInput
-              style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
+              style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 28, paddingHorizontal: 10}}
               onChangeText={(username) => this.setState({username})}
               placeholder={this.state.username}
             />
@@ -234,7 +235,8 @@ var styles = StyleSheet.create({
   },
   colorPicker: {
     height: 132,
-    backgroundColor: '#E0FFFF',
+    backgroundColor: 'white',
+    // backgroundColor: '#E0FFFF',
   },
   colorPickerContainer: {
     flex: 1,
