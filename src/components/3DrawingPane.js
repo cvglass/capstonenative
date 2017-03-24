@@ -11,14 +11,18 @@ import Svg, { Polyline, Text} from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
+import socket from '../socket';
+
 import { setPolyLines, clearPolyLines } from '../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
 import SubmitButton from './SubmitButton';
-import { emitToSocket, newDrawing } from '../utils';
+import { emitToSocket, newDrawing, FORCE_SUBMIT_DRAWING, colors } from '../utils';
+import ColorPicker from './ColorPicker';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
+  color: state.drawkward.color,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -27,6 +31,9 @@ const mapDispatchToProps = dispatch => ({
 })
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
+
+const TOP_PADDING = 196;
+const BOT_PADDING = 48;
 
 class DrawingPane extends React.Component {
   constructor(props) {
@@ -54,6 +61,18 @@ class DrawingPane extends React.Component {
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
+
+    socket.on(FORCE_SUBMIT_DRAWING, () => {emitToSocket(newDrawing,
+      {
+        image: this.convertImgStrToNums(this.props.polyLines),
+        phrase: this.props.phrase,
+      })
+      this.props.clearPolyLines();
+      Actions.drawkwardDrawingWait();
+    })
+  }
+  componentWillUnmount() {
+    socket.off(FORCE_SUBMIT_DRAWING);
   }
 
   handlePress(emitMsg, emitObj) {
@@ -66,67 +85,82 @@ class DrawingPane extends React.Component {
 
   convertImgStrToNums(polyLines) {
     let numsArr = polyLines.map(arr => {
-      return arr
+      return ({line: arr.line
       .filter((point, i) => {
         return (i % 2 === 0)
       })
       .map(point => {
         return +point;
-      })
+      }), color: arr.color})
     })
     return numsArr;
   }
 
   render() {
     return (
-      <View {...this._panResponder.panHandlers}>
-        <Svg
-          style={styles.container}
-          height={thisHeight - 50}
-          width={thisWidth}
-        >
+      <View style={styles.padTop}>
+        <View style={styles.colorPicker}>
+          <View style={styles.colorPickerContainer}>
+            {
+              Object.keys(colors).map((color, i) => {
+                return (
+                  <ColorPicker key={i} color={color} />
+                )
+              })
+            }
 
-            <Polyline
-              points={`${this.state.coordinates.slice(0, -1).join('')}`}
-              fill="none"
-              stroke="blue"
-              strokeWidth="2"
-              />
-
+          </View>
+        </View>
+        <View style={{height: 1, backgroundColor: 'black'}} />
+        <View {...this._panResponder.panHandlers}>
+          <Svg
+            style={styles.container}
+            height={thisHeight - TOP_PADDING - BOT_PADDING}
+            width={thisWidth}
+          >
           {
             this.props.polyLines.map((line, i) => {
               return (
                 <Polyline
                   key={i}
-                  points={line.slice(0, -1).join('')}
+                  points={line.line.slice(0, -1).join('')}
                   fill="none"
-                  stroke="black"
+                  stroke={line.color}
                   strokeWidth="2"
-                />
+                  />
               )
             })
           }
 
-          <Text
-            x={thisWidth / 2}
-            y={thisHeight - 80}
-            stroke="none"
-            color="black"
-            fontSize="20"
-            fontWeight="bold"
-            textAnchor="middle"
-            fontFamily="Amatic SC"
-          >
-            {this.props.phrase}
-          </Text>
-        </Svg>
-        <SubmitButton
-          onPress={() => this.handlePress(newDrawing, {
-            image: this.convertImgStrToNums(this.props.polyLines),
-            phrase: this.props.phrase,
-          })}
-          buttonText={'Submit Drawing!'}
-        />
+              <Polyline
+                points={`${this.state.coordinates.slice(0, -1).join('')}`}
+                fill="none"
+                stroke={this.props.color}
+                strokeWidth="2"
+                />
+
+
+            <Text
+              x={thisWidth / 2}
+              y={thisHeight / 2}
+              stroke="none"
+              color="black"
+              fontSize="20"
+              fontWeight="bold"
+              textAnchor="middle"
+              fontFamily="Amatic SC"
+            >
+              {this.props.phrase}
+            </Text>
+          </Svg>
+          <SubmitButton
+            onPress={() => this.handlePress(newDrawing, {
+              image: this.convertImgStrToNums(this.props.polyLines),
+              phrase: this.props.phrase,
+            })}
+            buttonText={'Submit Drawing!'}
+          />
+        </View>
       </View>
     );
   }
@@ -142,14 +176,14 @@ class DrawingPane extends React.Component {
   _handlePanResponderGrant(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ))
   }
 
   _handlePanResponderMove(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ))
   }
 
@@ -160,14 +194,14 @@ class DrawingPane extends React.Component {
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
       let newCoords = this.state.coordinates.concat(newPoint)
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(newCoords);
+        this.props.setPolyLines({line: newCoords, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
       })
       .then(() => {
         this.setState((prevState, props) => ({
-          polyLines: prevState.polyLines.concat([newCoords]),
+          // polyLines: prevState.polyLines.concat([newCoords]),
           coordinates: [],
         }))
       })
@@ -176,7 +210,7 @@ class DrawingPane extends React.Component {
       })
     } else {
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(this.state.coordinates);
+        this.props.setPolyLines({line: this.state.coordinates, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
@@ -184,7 +218,7 @@ class DrawingPane extends React.Component {
       .then(() => {
         this.setState((prevState, props) => ({
           // this.props.setPolyLines(this.state.coordinates)
-          polyLines: prevState.polyLines.concat([prevState.coordinates]),
+          // polyLines: prevState.polyLines.concat([prevState.coordinates]),
           coordinates: [],
         }))
       })
@@ -201,7 +235,23 @@ class DrawingPane extends React.Component {
 var styles = StyleSheet.create({
   container: {
     backgroundColor: 'white'
-  }
+  },
+  padTop: {
+    paddingTop: 64,
+    flex: 1,
+    // justifyContent: 'flex-end'
+  },
+  colorPicker: {
+    height: 132,
+    backgroundColor: 'white',
+    // backgroundColor: '#E0FFFF'
+  },
+  colorPickerContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawingPane);
