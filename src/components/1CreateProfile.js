@@ -8,7 +8,7 @@ var {
   View,
   TextInput,
 } = ReactNative;
-import Svg, { Polyline, Rect} from 'react-native-svg';
+import Svg, { Polyline } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
@@ -72,13 +72,13 @@ class CreateProfile extends React.Component {
 
   convertImgStrToNums(polyLines) {
     let numsArr = polyLines.map(arr => {
-      return arr
+      return ({line: arr.line
       .filter((point, i) => {
         return (i % 2 === 0)
       })
       .map(point => {
         return +point;
-      })
+      }), color: arr.color})
     })
     return numsArr;
   }
@@ -95,7 +95,7 @@ class CreateProfile extends React.Component {
                 )
               })
             }
-            <ColorPicker />
+
           </View>
         </View>
         <View style={{height: 1, backgroundColor: 'black'}} />
@@ -106,6 +106,19 @@ class CreateProfile extends React.Component {
             width={Dimensions.get('window').width}
           >
 
+          {
+            this.props.polyLines.map((line, i) => {
+              return (
+                <Polyline
+                  key={i}
+                  points={line.line.slice(0, -1).join('')}
+                  fill="none"
+                  stroke={line.color}
+                  strokeWidth="2"
+                  />
+              )
+            })
+          }
               <Polyline
                 points={`${this.state.coordinates.slice(0, -1).join('')}`}
                 fill="none"
@@ -113,19 +126,6 @@ class CreateProfile extends React.Component {
                 strokeWidth="2"
                 />
 
-            {
-              this.props.polyLines.map((line, i) => {
-                return (
-                  <Polyline
-                    key={i}
-                    points={line.slice(0, -1).join('')}
-                    fill="none"
-                    stroke={this.props.color}
-                    strokeWidth="2"
-                  />
-                )
-              })
-            }
 
           </Svg>
         </View>
@@ -172,31 +172,29 @@ class CreateProfile extends React.Component {
 
   _handlePanResponderEnd(e, gestureState) {
 
-    console.log('height', Dimensions.get('window').height - TOP_PADDING - BOT_PADDING)
-    console.log('width', Dimensions.get('window').width)
 
     if (this.state.coordinates.length === 4) {
       let newPoint = this.state.coordinates.slice();
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
       let newCoords = this.state.coordinates.concat(newPoint)
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(newCoords);
+        this.props.setPolyLines({line: newCoords, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
       })
       .then(() => {
         this.setState((prevState, props) => ({
-          polyLines: prevState.polyLines.concat([newCoords]),
+          // polyLines: prevState.polyLines.concat([newCoords]),
           coordinates: [],
         }))
       })
       .catch(err => {
-        console.err(err);
+        console.error(err);
       })
     } else {
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(this.state.coordinates);
+        this.props.setPolyLines({line: this.state.coordinates, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
@@ -204,12 +202,12 @@ class CreateProfile extends React.Component {
       .then(() => {
         this.setState((prevState, props) => ({
           // this.props.setPolyLines(this.state.coordinates)
-          polyLines: prevState.polyLines.concat([prevState.coordinates]),
+          // polyLines: prevState.polyLines.concat([prevState.coordinates]),
           coordinates: [],
         }))
       })
       .catch(err => {
-        console.err(err);
+        console.error(err);
       })
     }
 
@@ -221,7 +219,7 @@ class CreateProfile extends React.Component {
 var styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    margin: 0
+
   },
   botContainer: {
 

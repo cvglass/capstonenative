@@ -22,6 +22,7 @@ import ColorPicker from './ColorPicker';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
+  color: state.drawkward.color,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -52,7 +53,6 @@ class DrawingPane extends React.Component {
 
 
   componentWillMount() {
-    console.log('this.props.prhase', this.props.phrase)
     this._panResponder = PanResponder.create({
       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
@@ -85,13 +85,13 @@ class DrawingPane extends React.Component {
 
   convertImgStrToNums(polyLines) {
     let numsArr = polyLines.map(arr => {
-      return arr
+      return ({line: arr.line
       .filter((point, i) => {
         return (i % 2 === 0)
       })
       .map(point => {
         return +point;
-      })
+      }), color: arr.color})
     })
     return numsArr;
   }
@@ -101,36 +101,44 @@ class DrawingPane extends React.Component {
       <View style={styles.padTop}>
         <View style={styles.colorPicker}>
           <View style={styles.colorPickerContainer}>
-            <ColorPicker />
+            {
+              Object.keys(colors).map((color, i) => {
+                return (
+                  <ColorPicker key={i} color={color} />
+                )
+              })
+            }
+
           </View>
         </View>
+        <View style={{height: 1, backgroundColor: 'black'}} />
         <View {...this._panResponder.panHandlers}>
           <Svg
             style={styles.container}
             height={thisHeight - TOP_PADDING - BOT_PADDING}
             width={thisWidth}
           >
+          {
+            this.props.polyLines.map((line, i) => {
+              return (
+                <Polyline
+                  key={i}
+                  points={line.line.slice(0, -1).join('')}
+                  fill="none"
+                  stroke={line.color}
+                  strokeWidth="2"
+                  />
+              )
+            })
+          }
 
               <Polyline
                 points={`${this.state.coordinates.slice(0, -1).join('')}`}
                 fill="none"
-                stroke="blue"
+                stroke={this.props.color}
                 strokeWidth="2"
                 />
 
-            {
-              this.props.polyLines.map((line, i) => {
-                return (
-                  <Polyline
-                    key={i}
-                    points={line.slice(0, -1).join('')}
-                    fill="none"
-                    stroke="black"
-                    strokeWidth="2"
-                  />
-                )
-              })
-            }
 
             <Text
               x={thisWidth / 2}
@@ -180,22 +188,20 @@ class DrawingPane extends React.Component {
   }
 
   _handlePanResponderEnd(e, gestureState) {
-    console.log('height', Dimensions.get('window').height - TOP_PADDING - BOT_PADDING)
-    console.log('width', Dimensions.get('window').width)
 
     if (this.state.coordinates.length === 4) {
       let newPoint = this.state.coordinates.slice();
       newPoint[2] = (Number(newPoint[2]) + 2).toString();
       let newCoords = this.state.coordinates.concat(newPoint)
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(newCoords);
+        this.props.setPolyLines({line: newCoords, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
       })
       .then(() => {
         this.setState((prevState, props) => ({
-          polyLines: prevState.polyLines.concat([newCoords]),
+          // polyLines: prevState.polyLines.concat([newCoords]),
           coordinates: [],
         }))
       })
@@ -204,7 +210,7 @@ class DrawingPane extends React.Component {
       })
     } else {
       let updatePoly = new Promise((resolve, reject) => {
-        this.props.setPolyLines(this.state.coordinates);
+        this.props.setPolyLines({line: this.state.coordinates, color: this.props.color});
         window.setTimeout(() => {
           resolve('done');
         }, 0)
@@ -212,7 +218,7 @@ class DrawingPane extends React.Component {
       .then(() => {
         this.setState((prevState, props) => ({
           // this.props.setPolyLines(this.state.coordinates)
-          polyLines: prevState.polyLines.concat([prevState.coordinates]),
+          // polyLines: prevState.polyLines.concat([prevState.coordinates]),
           coordinates: [],
         }))
       })
@@ -237,7 +243,8 @@ var styles = StyleSheet.create({
   },
   colorPicker: {
     height: 132,
-    backgroundColor: '#E0FFFF'
+    backgroundColor: 'white',
+    // backgroundColor: '#E0FFFF'
   },
   colorPickerContainer: {
     flex: 1,
