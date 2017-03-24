@@ -10,6 +10,7 @@ export const selectPhrase = 'select phrase';
 export const newUser = 'new user';
 export const sendStartGame = 'send start game';
 export const nextDrawing = 'next drawing';
+export const JOIN_ROOM = 'join room';
 
 //receive message constants
 export const writeCaption = 'start caption'; // NOTE: startCaption on server-side
@@ -20,6 +21,8 @@ export const receiveRandomPhrase = 'receive random phrase';
 export const youAreTheArtist = 'you are the artist';
 export const scoreboard = 'scoreboard';
 export const FORCE_SUBMIT_DRAWING = 'force submit drawing';
+export const SEND_TO_DRAWKWARD = 'send to drawkward';
+export const SEND_TO_PICTIONARY = 'send to pictionary'
 
 //button press emit function
 export const emitToSocket = (emitMsg, emitObj) => {

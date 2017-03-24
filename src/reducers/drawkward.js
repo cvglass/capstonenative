@@ -20,6 +20,7 @@ const drawkwardReducer = (prevState = initialState, action) => {
       break;
     case CLEAR:
       newState.polyLines = [];
+      newState.color = 'black';
       break;
     case SET_COLOR:
       newState.color = action.color;

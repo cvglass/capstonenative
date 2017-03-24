@@ -43,10 +43,10 @@ class WriteCaption extends React.Component {
         >
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2 - 70}
+            y={thisHeight / 2 - 80}
             stroke="none"
             color="black"
-            fontSize="20"
+            fontSize="30"
             fontWeight="bold"
             textAnchor="middle"
             fontFamily="Amatic SC"
@@ -58,7 +58,7 @@ class WriteCaption extends React.Component {
             y={thisHeight / 2 - 50}
             stroke="none"
             color="black"
-            fontSize="20"
+            fontSize="30"
             fontWeight="bold"
             textAnchor="middle"
             fontFamily="Amatic SC"
