@@ -29,6 +29,10 @@ import GuessWait from './src/components/8GuessWait';
 import EndRound from './src/components/9EndRound';
 import GameOver from './src/components/9GameOver';
 
+//pictionary
+import CreateTeamProfile from './src/components/pictionary/CreateTeamProfile';
+import PictionaryStartWait from './src/components/pictionary/StartWait';
+import PictionaryDrawingPane from './src/components/pictionary/DrawingPane';
 
 export default class capstonenative extends Component {
   render() {
@@ -37,7 +41,7 @@ export default class capstonenative extends Component {
         <Router titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'normal', fontSize: 25}}>
 
             <Scene key="drawkward">
-              <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} />
+              <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" />
               <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for all users" hideNavBar={true} />
               <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!" renderBackButton={false} />
               <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} />
@@ -48,9 +52,10 @@ export default class capstonenative extends Component {
               <Scene key="drawkwardEndRound" component={ EndRound } hideNavBar={true} />
               <Scene key="drawkwardGameOver" component={ GameOver } title="Game Over" hideNavBar={true} />
               <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} />
-
+              <Scene key="pictionaryCreateProfile" component={CreateTeamProfile} initial={true} />
+              <Scene key="pictionaryStartWait" component={PictionaryStartWait} />
+              <Scene key="pictionaryDrawingPane" component={PictionaryDrawingPane} />
             </Scene>
-
         </Router>
       </Provider>
     );
