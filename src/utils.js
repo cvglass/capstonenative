@@ -21,8 +21,8 @@ export const receiveRandomPhrase = 'receive random phrase';
 export const youAreTheArtist = 'you are the artist';
 export const scoreboard = 'scoreboard';
 export const FORCE_SUBMIT_DRAWING = 'force submit drawing';
-export const SEND_TO_DRAWKWARD = 'send to drawkward';
-export const SEND_TO_PICTIONARY = 'send to pictionary'
+export const GO_TO_DRAWKWARD = 'go to drawkward';
+export const GO_TO_PICTIONARY = 'go to pictionary'
 
 //button press emit function
 export const emitToSocket = (emitMsg, emitObj) => {
