@@ -28,6 +28,8 @@ export const NEW_TEAM = 'new team';
 export const FETCH_NEXT_WORD = 'next word';
 export const CORRECT_GUESS = 'correct guess';
 export const SKIP = 'skip';
+export const NEW_LINE = 'new line';
+export const NEW_COORDINATES = 'new coordinates';
 
 //receive message constants
 export const RECEIVE_NEW_WORD = 'receive new word';

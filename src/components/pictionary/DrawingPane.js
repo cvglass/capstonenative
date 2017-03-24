@@ -8,15 +8,14 @@ var {
   View,
 } = ReactNative;
 import Svg, { Polyline, Text} from 'react-native-svg';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-
-import socket from '../../socket';
-import { setPolyLines, clearPolyLines } from '../../reducers/drawkward';
 
 import Dimensions from 'Dimensions';
 import SubmitButton from '../SubmitButton';
-import { emitToSocket, RECEIVE_NEW_WORD, CORRECT_GUESS, SKIP } from '../../utils';
+
+import socket from '../../socket';
+import { setPolyLines, clearPolyLines } from '../../reducers/drawkward';
+import { emitToSocket, RECEIVE_NEW_WORD, CORRECT_GUESS, SKIP, NEW_LINE, NEW_COORDINATES } from '../../utils';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
@@ -26,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
   setPolyLines: (polyLines) => dispatch(setPolyLines(polyLines)),
   clearPolyLines: () => dispatch(clearPolyLines()),
 })
+
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
 
@@ -158,7 +158,8 @@ class PictionaryDrawingPane extends React.Component {
     e.persist();
     this.setState((prevState, props) => ({
       coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
-    ))
+    ));
+    socket.emit(NEW_COORDINATES, [e.nativeEvent.pageX, e.nativeEvent.pageY])
   }
 
   _handlePanResponderMove(e, gestureState) {
@@ -166,6 +167,7 @@ class PictionaryDrawingPane extends React.Component {
     this.setState((prevState, props) => ({
       coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
     ))
+    socket.emit(NEW_COORDINATES, [e.nativeEvent.pageX, e.nativeEvent.pageY])
   }
 
   _handlePanResponderEnd(e, gestureState) {
@@ -206,6 +208,8 @@ class PictionaryDrawingPane extends React.Component {
         console.error(err);
       })
     }
+
+    socket.emit(NEW_LINE)
 
   }
 }
