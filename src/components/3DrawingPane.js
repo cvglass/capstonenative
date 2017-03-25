@@ -62,11 +62,14 @@ class DrawingPane extends React.Component {
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
 
-    socket.on(FORCE_SUBMIT_DRAWING, () => {emitToSocket(newDrawing,
+    socket.on(FORCE_SUBMIT_DRAWING, () => {
+      console.log('this.props.phrase: ', this.props.phrase)
+      emitToSocket(newDrawing,
       {
         image: this.convertImgStrToNums(this.props.polyLines),
         phrase: this.props.phrase,
       })
+      socket.off(FORCE_SUBMIT_DRAWING);
       this.props.clearPolyLines();
       Actions.drawkwardDrawingWait();
     })
@@ -79,6 +82,7 @@ class DrawingPane extends React.Component {
     // return ((emitMsg, emitObj) => {
       emitToSocket(emitMsg, emitObj);
       this.props.clearPolyLines();
+      socket.off(FORCE_SUBMIT_DRAWING);
       Actions.drawkwardDrawingWait();
     // })
   }

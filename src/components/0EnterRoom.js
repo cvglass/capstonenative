@@ -5,14 +5,16 @@ import ReactNative from 'react-native';
 const { StyleSheet, View } = ReactNative;
 import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
-import { JOIN_ROOM, SEND_TO_DRAWKWARD, SEND_TO_PICTIONARY  } from '../utils';
+import { emitToSocket, JOIN_ROOM, SEND_TO_DRAWKWARD, SEND_TO_PICTIONARY  } from '../utils';
 import socket from '../socket';
 import Dimensions from 'Dimensions';
+import SubmitButton from './SubmitButton';
+
 
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
 
-class ArtistWait extends React.Component {
+class EnterRoom extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -21,50 +23,25 @@ class ArtistWait extends React.Component {
     socket.on(SEND_TO_DRAWKWARD, () => {
       Actions.drawkwardCreateProfile();
     })
-    socket.on(scoreboard, () => {
-      // console.log('hi!')
-      Actions.drawkwardEndRound();
+    socket.on(SEND_TO_PICTIONARY, () => {
+      //NOTE: change to pictionary.
+      Actions.drawkwardCreateProfile();
     })
   }
 
   componentWillUnmount() {
-    socket.off(writeCaption);
-    socket.off(scoreboard);
+    socket.off(SEND_TO_DRAWKWARD);
+    socket.off(SEND_TO_PICTIONARY);
   }
 
   render() {
     return (
       <View>
-        <Svg
-          style={styles.container}
-          height={thisHeight - 50}
-          width={thisWidth}
-        >
-        <Text
-            x={thisWidth / 2}
-            y={thisHeight / 2 - 50}
-            stroke="none"
-            color="black"
-            fontSize="30"
-            fontWeight="bold"
-            textAnchor="middle"
-            fontFamily="Amatic SC"
-          >
-            You are the artist.
-          </Text>
-          <Text
-              x={thisWidth / 2}
-              y={thisHeight / 2 - 20}
-              stroke="none"
-              color="black"
-              fontSize="30"
-              fontWeight="bold"
-              textAnchor="middle"
-              fontFamily="Amatic SC"
-            >
-               Wait for the other players to guess.
-            </Text>
-        </Svg>
+        <View style={styles.container} />
+        <Text style={styles.text}>
+          Enter your four letter code below.
+        </Text>
+
       </View>
     )
   }
@@ -72,8 +49,14 @@ class ArtistWait extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white'
-  }
+    backgroundColor: 'red',
+    height: 100,
+  },
+  text: {
+    fontFamily: 'Amatic SC',
+    fontSize: 30,
+    color: 'black',
+  },
 });
 
-export default ArtistWait
+export default EnterRoom;
