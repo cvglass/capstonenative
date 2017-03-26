@@ -37,6 +37,7 @@ export const NEW_COORDINATES = 'new coordinates';
 
 //receive message constants
 export const RECEIVE_NEW_WORD = 'receive new word';
+export const START_TURN = 'start turn';
 export const END_TURN = 'end turn';
 
 //button press emit function

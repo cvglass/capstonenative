@@ -9,8 +9,9 @@ var {
 import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
-import { emitToSocket, sendStartGame, FETCH_NEXT_WORD } from '../../utils';
-import SubmitButton from '../SubmitButton';
+import { emitToSocket, START_TURN, END_TURN } from '../../utils';
+import socket from '../../socket'
+// import SubmitButton from '../SubmitButton';
 
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
@@ -18,23 +19,28 @@ const thisWidth = Dimensions.get('window').width;
 class PictionaryStartWait extends React.Component {
   constructor(props) {
     super(props);
-    this.handlePress = this.handlePress.bind(this)
+    // this.handlePress = this.handlePress.bind(this)
   }
 
-  // componentWillMount() {
-  //   socket.on(receiveRandomPhrase, (phraseString) => {
-  //     Actions.pictionaryDrawingPane();
-  //   });
+  componentDidMount() {
+    socket.on(START_TURN, () => {
+      Actions.pictionaryDrawingPane()
+    })
 
-  // }
-  // componentWillUnmount() {
-  //   socket.off(receiveRandomPhrase);
-  // }
-
-  handlePress(emitMsg) {
-    emitToSocket(emitMsg);
-    Actions.pictionaryDrawingPane();
+    socket.on(END_TURN, () => {
+      Actions.pictionaryTurnWait();
+    })
   }
+
+  componentWillUnmount() {
+    socket.off(START_TURN);
+    socket.off(END_TURN);
+  }
+
+  // handlePress(emitMsg) {
+  //   emitToSocket(emitMsg);
+  //   Actions.pictionaryDrawingPane();
+  // }
 
   render() {
     return (
@@ -57,10 +63,10 @@ class PictionaryStartWait extends React.Component {
             When everyone is ready, press Start!
           </Text>
         </Svg>
-        <SubmitButton
+        {/*<SubmitButton
           onPress={() => this.handlePress(sendStartGame)}
           buttonText={'Start!'}
-        />
+        />*/}
       </View>
     )
   }
