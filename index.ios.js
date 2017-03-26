@@ -42,8 +42,8 @@ export default class capstonenative extends Component {
     return (
       <Provider store={store}>
         <Router navigationBarStyle={{backgroundColor: 'white',  borderBottomColor: 'black', borderBottomWidth: 1 }} titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 31, backgroundColor: 'transparent'}}>
-            <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!" initial={true} />
-            <Scene key="drawkward"  >
+            <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!"  />
+            <Scene key="drawkward" >
               <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} />
               <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for users" renderBackButton={() => (null)} />
               <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!"  renderBackButton={() => (null)} />
@@ -55,10 +55,12 @@ export default class capstonenative extends Component {
               <Scene key="drawkwardEndRound" component={ EndRound } hideNavBar={true} />
               <Scene key="drawkwardGameOver" component={ GameOver } title="Game Over" hideNavBar={true} />
               <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} />
-              <Scene key="pictionaryCreateProfile" component={CreateTeamProfile} initial={true} />
-              <Scene key="pictionaryStartWait" component={PictionaryStartWait} />
-              <Scene key="pictionaryDrawingPane" component={PictionaryDrawingPane} />
-              <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} />
+            </Scene>
+            <Scene key="pictionary" initial={true} >
+              <Scene key="pictionaryCreateProfile" title="Create your team!" component={CreateTeamProfile} renderBackButton={() => (null)} initial={true}   />
+              <Scene key="pictionaryStartWait" component={PictionaryStartWait} hideNavBar={true}  />
+              <Scene key="pictionaryDrawingPane" title="Draw!" component={PictionaryDrawingPane} renderBackButton={() => (null)}  />
+              <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} hideNavBar={true} />
             </Scene>
         </Router>
       </Provider>

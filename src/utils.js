@@ -55,6 +55,6 @@ export const colors = {
   blue: 'blue',
   purple: 'purple',
   pink: 'pink',
-  brown: 'brown',
+  saddlebrown: 'saddlebrown',
   grey: 'grey',
 }
