@@ -20,6 +20,7 @@ import { emitToSocket, RECEIVE_NEW_WORD, CORRECT_GUESS, SKIP, NEW_LINE, NEW_COOR
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
+  teamName: state.pictionaryReducer.team.name
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -57,7 +58,7 @@ class PictionaryDrawingPane extends React.Component {
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
 
-    emitToSocket(SKIP);
+    // emitToSocket(SKIP);
   }
 
   componentDidMount() {
@@ -137,15 +138,11 @@ class PictionaryDrawingPane extends React.Component {
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => this.handlePress(CORRECT_GUESS, {
-            image: this.convertImgStrToNums(this.props.polyLines),
-          })}
+          onPress={() => this.handlePress(CORRECT_GUESS, this.props.teamName)}
           buttonText={'Got it!'}
         />
         <SubmitButton
-          onPress={() => this.handlePress(SKIP, {
-            image: this.convertImgStrToNums(this.props.polyLines),
-          })}
+          onPress={() => this.handlePress(SKIP)}
           buttonText={'Skip'}
         />
       </View>

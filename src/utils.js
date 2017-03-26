@@ -23,7 +23,7 @@ export const youAreTheArtist = 'you are the artist';
 export const scoreboard = 'scoreboard';
 export const FORCE_SUBMIT_DRAWING = 'force submit drawing';
 export const GO_TO_DRAWKWARD = 'go to drawkward';
-export const GO_TO_PICTIONARY = 'go to pictionary'
+export const GO_TO_PICTIONARY = 'go to pictionary';
 
 //pictionary
 
@@ -39,6 +39,7 @@ export const NEW_COORDINATES = 'new coordinates';
 export const RECEIVE_NEW_WORD = 'receive new word';
 export const START_TURN = 'start turn';
 export const END_TURN = 'end turn';
+export const TURN_WAIT = 'turn wait';
 
 //button press emit function
 export const emitToSocket = (emitMsg, emitObj) => {

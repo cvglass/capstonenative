@@ -13,6 +13,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 import { setPolyLines, clearPolyLines } from '../../reducers/drawkward';
+import { createTeam } from '../../reducers/pictionary'
 
 import Dimensions from 'Dimensions';
 import SubmitButton from '../SubmitButton';
@@ -25,6 +26,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   setPolyLines: (polyLines) => dispatch(setPolyLines(polyLines)),
   clearPolyLines: () => dispatch(clearPolyLines()),
+  createTeam: teamData => dispatch(createTeam(teamData))
 })
 
 
@@ -58,11 +60,10 @@ class CreateTeamProfile extends React.Component {
   }
 
   handlePress(emitMsg, emitObj) {
-    // return ((emitMsg, emitObj) => {
       emitToSocket(emitMsg, emitObj);
       this.props.clearPolyLines();
+      this.props.createTeam(emitObj)
       Actions.pictionaryStartWait();
-    // })
   }
 
   convertImgStrToNums(polyLines) {

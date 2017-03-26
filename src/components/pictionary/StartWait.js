@@ -9,7 +9,7 @@ var {
 import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
-import { emitToSocket, START_TURN, END_TURN } from '../../utils';
+import { emitToSocket, START_TURN, TURN_WAIT } from '../../utils';
 import socket from '../../socket'
 // import SubmitButton from '../SubmitButton';
 
@@ -27,7 +27,7 @@ class PictionaryStartWait extends React.Component {
       Actions.pictionaryDrawingPane()
     })
 
-    socket.on(END_TURN, () => {
+    socket.on(TURN_WAIT, () => {
       Actions.pictionaryTurnWait();
     })
   }
