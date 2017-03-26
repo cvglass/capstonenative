@@ -9,13 +9,14 @@ var {
 } = ReactNative;
 import Svg, { Polyline, Text} from 'react-native-svg';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import Dimensions from 'Dimensions';
 import SubmitButton from '../SubmitButton';
 
 import socket from '../../socket';
 import { setPolyLines, clearPolyLines } from '../../reducers/drawkward';
-import { emitToSocket, RECEIVE_NEW_WORD, CORRECT_GUESS, SKIP, NEW_LINE, NEW_COORDINATES } from '../../utils';
+import { emitToSocket, RECEIVE_NEW_WORD, CORRECT_GUESS, SKIP, NEW_LINE, NEW_COORDINATES, END_TURN } from '../../utils';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
@@ -63,10 +64,15 @@ class PictionaryDrawingPane extends React.Component {
     socket.on(RECEIVE_NEW_WORD, word => {
       this.setState({currentWord: word})
     })
+
+    socket.on(END_TURN, () => {
+      Actions.pictionaryTurnWait();
+    })
   }
 
   componentWillUnmount() {
-    socket.off(RECEIVE_NEW_WORD)
+    socket.off(RECEIVE_NEW_WORD);
+    socket.off(END_TURN);
   }
 
   handlePress(emitMsg, emitObj) {

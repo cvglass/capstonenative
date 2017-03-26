@@ -35,12 +35,12 @@ import GameOver from './src/components/9GameOver';
 import CreateTeamProfile from './src/components/pictionary/CreateTeamProfile';
 import PictionaryStartWait from './src/components/pictionary/StartWait';
 import PictionaryDrawingPane from './src/components/pictionary/DrawingPane';
+import PictionaryTurnWait from './src/components/pictionary/TurnWait'
 
 export default class capstonenative extends Component {
   render() {
     return (
       <Provider store={store}>
-
         <Router navigationBarStyle={{backgroundColor: 'white',  borderBottomColor: 'black', borderBottomWidth: 1 }} titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 31, backgroundColor: 'transparent'}}>
             <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!" initial={true} />
             <Scene key="drawkward"  >
@@ -58,6 +58,7 @@ export default class capstonenative extends Component {
               <Scene key="pictionaryCreateProfile" component={CreateTeamProfile} initial={true} />
               <Scene key="pictionaryStartWait" component={PictionaryStartWait} />
               <Scene key="pictionaryDrawingPane" component={PictionaryDrawingPane} />
+              <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} />
             </Scene>
         </Router>
       </Provider>
