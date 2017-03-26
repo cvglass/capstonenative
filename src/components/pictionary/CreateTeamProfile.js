@@ -7,6 +7,8 @@ var {
   StyleSheet,
   View,
   TextInput,
+  Slider,
+  Text,
 } = ReactNative;
 import Svg, { Polyline } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
@@ -30,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
 
-const TOP_PADDING = 112;
+const TOP_PADDING = 200;
 const BOT_PADDING = 52;
 
 class CreateTeamProfile extends React.Component {
@@ -41,6 +43,7 @@ class CreateTeamProfile extends React.Component {
         coordinates: [],
         polyLines: [],
         teamName: 'Enter your team name here!',
+        sliderValue: 1
     };
       this._handleStartShouldSetPanResponder = this._handleStartShouldSetPanResponder.bind(this);
       this._handleMoveShouldSetPanResponder = this._handleMoveShouldSetPanResponder.bind(this);
@@ -91,7 +94,18 @@ class CreateTeamProfile extends React.Component {
           style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
           onChangeText={(teamName) => this.setState({teamName})}
           placeholder={this.state.teamName}
-          />
+        />
+      <View height={88} style={{borderBottomColor: 'black', borderBottomWidth: 1}} >
+          <Text style={styles.text} >
+            Number of team members:
+            {this.state.sliderValue && +this.state.sliderValue.toFixed(3)}
+          </Text>
+          <Slider
+            minimumValue={1}
+            maximumValue={10}
+            step={1}
+            onValueChange={(value) => this.setState({sliderValue: value})} />
+        </View>
         <View {...this._panResponder.panHandlers}>
           <Svg
             style={styles.container}
@@ -125,6 +139,7 @@ class CreateTeamProfile extends React.Component {
             onPress={() => this.handlePress(NEW_TEAM, {
               name: this.state.teamName,
               portrait: this.convertImgStrToNums(this.props.polyLines),
+              members: this.state.sliderValue,
             })}
             buttonText={'Submit Profile!'}
           />
@@ -209,6 +224,14 @@ var styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'flex-end'
   },
+  text: {
+    fontSize: 23,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    margin: 10,
+    fontFamily: 'Amatic SC',
+
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTeamProfile);
