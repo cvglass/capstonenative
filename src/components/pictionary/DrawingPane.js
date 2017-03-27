@@ -31,6 +31,9 @@ const mapDispatchToProps = dispatch => ({
 const thisHeight = Dimensions.get('window').height;
 const thisWidth = Dimensions.get('window').width;
 
+const TOP_PADDING = 0;
+const BOT_PADDING = 96;
+
 class PictionaryDrawingPane extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +61,6 @@ class PictionaryDrawingPane extends React.Component {
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
 
-    // emitToSocket(SKIP);
   }
 
   componentDidMount() {
@@ -99,14 +101,14 @@ class PictionaryDrawingPane extends React.Component {
       <View {...this._panResponder.panHandlers}>
         <Svg
           style={styles.container}
-          height={thisHeight - 50}
+          height={thisHeight - TOP_PADDING - BOT_PADDING}
           width={thisWidth}
         >
 
             <Polyline
               points={`${this.state.coordinates.slice(0, -1).join('')}`}
               fill="none"
-              stroke="blue"
+              stroke="black"
               strokeWidth="2"
               />
 
@@ -141,6 +143,7 @@ class PictionaryDrawingPane extends React.Component {
           onPress={() => this.handlePress(CORRECT_GUESS, this.props.teamName)}
           buttonText={'Got it!'}
         />
+      <View style={{height: 5}} />
         <SubmitButton
           onPress={() => this.handlePress(SKIP)}
           buttonText={'Skip'}
@@ -160,7 +163,7 @@ class PictionaryDrawingPane extends React.Component {
   _handlePanResponderGrant(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ));
     socket.emit(NEW_COORDINATES, [e.nativeEvent.pageX, e.nativeEvent.pageY])
   }
@@ -168,7 +171,7 @@ class PictionaryDrawingPane extends React.Component {
   _handlePanResponderMove(e, gestureState) {
     e.persist();
     this.setState((prevState, props) => ({
-      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', e.nativeEvent.pageY.toString(), ' ')}
+      coordinates: prevState.coordinates.concat(e.nativeEvent.pageX.toString(), ',', (e.nativeEvent.pageY - TOP_PADDING).toString(), ' ')}
     ))
     socket.emit(NEW_COORDINATES, [e.nativeEvent.pageX, e.nativeEvent.pageY])
   }
