@@ -16,7 +16,7 @@ import SubmitButton from '../SubmitButton';
 
 import socket from '../../socket';
 import { setPolyLines, clearPolyLines } from '../../reducers/drawkward';
-import { emitToSocket, RECEIVE_NEW_WORD, CORRECT_GUESS, SKIP, NEW_LINE, NEW_COORDINATES, END_TURN } from '../../utils';
+import { emitToSocket, RECEIVE_NEW_WORD, CORRECT_GUESS, SKIP, NEW_LINE, NEW_COORDINATES, END_TURN, gameOver } from '../../utils';
 
 const mapStateToProps = state => ({
   polyLines: state.drawkward.polyLines,
@@ -71,11 +71,15 @@ class PictionaryDrawingPane extends React.Component {
     socket.on(END_TURN, () => {
       Actions.pictionaryTurnWait();
     })
+    socket.on(gameOver, () => {
+      Actions.pictionaryGameOver();
+    })
   }
 
   componentWillUnmount() {
     socket.off(RECEIVE_NEW_WORD);
     socket.off(END_TURN);
+    socket.off(gameOver);
   }
 
   handlePress(emitMsg, emitObj) {
@@ -215,7 +219,7 @@ class PictionaryDrawingPane extends React.Component {
       })
     }
 
-    socket.emit(NEW_LINE)
+    emitToSocket(NEW_LINE)
 
   }
 }

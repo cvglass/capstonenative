@@ -47,10 +47,10 @@ class NextTeamStartWait extends React.Component {
         >
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2 - 50}
+            y={thisHeight / 2 - 100}
             stroke="none"
             color="black"
-            fontSize="20"
+            fontSize="30"
             fontWeight="bold"
             textAnchor="middle"
             fontFamily="Amatic SC"
@@ -59,10 +59,10 @@ class NextTeamStartWait extends React.Component {
           </Text>
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2 - 100}
+            y={thisHeight / 2 - 50}
             stroke="none"
             color="black"
-            fontSize="20"
+            fontSize="30"
             fontWeight="bold"
             textAnchor="middle"
             fontFamily="Amatic SC"
