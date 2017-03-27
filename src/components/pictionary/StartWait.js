@@ -23,6 +23,7 @@ class PictionaryStartWait extends React.Component {
 
   componentDidMount() {
     socket.on(START_TURN, () => {
+      console.log('going from startwait to drawing');
       Actions.pictionaryDrawingPane()
     })
 
@@ -34,6 +35,7 @@ class PictionaryStartWait extends React.Component {
   }
 
   componentWillUnmount() {
+    console.log('startwait unmounting');
     socket.off(START_TURN);
     socket.off(TURN_WAIT);
   }
