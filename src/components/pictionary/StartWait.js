@@ -19,7 +19,6 @@ const thisWidth = Dimensions.get('window').width;
 class PictionaryStartWait extends React.Component {
   constructor(props) {
     super(props);
-    // this.handlePress = this.handlePress.bind(this)
   }
 
   componentDidMount() {
@@ -30,17 +29,17 @@ class PictionaryStartWait extends React.Component {
     socket.on(TURN_WAIT, () => {
       Actions.pictionaryTurnWait();
     })
+
+    socket.on(GAME_OVER, () => {
+      Actions.gameOver()
+    })
   }
 
   componentWillUnmount() {
     socket.off(START_TURN);
-    socket.off(END_TURN);
+    socket.off(TURN_WAIT);
+    socket.off(GAME_OVER)
   }
-
-  // handlePress(emitMsg) {
-  //   emitToSocket(emitMsg);
-  //   Actions.pictionaryDrawingPane();
-  // }
 
   render() {
     return (
