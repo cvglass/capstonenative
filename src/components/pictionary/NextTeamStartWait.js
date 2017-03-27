@@ -9,7 +9,7 @@ var {
 import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
-import { emitToSocket, START_TURN } from '../../utils';
+import { emitToSocket, START_TURN, gameOver } from '../../utils';
 import socket from '../../socket'
 // import SubmitButton from '../SubmitButton';
 
@@ -28,11 +28,17 @@ class NextTeamStartWait extends React.Component {
       console.log('going from NextTeamStartWait to drawing')
       Actions.pictionaryDrawingPane()
     })
+
+    socket.on(gameOver, () => {
+      console.log('game over')
+      Actions.pictionaryGameOver();
+    })
   }
 
   componentWillUnmount() {
     console.log('leaving NextTeamStartWait')
     socket.off(START_TURN);
+    socket.off(gameOver);
   }
 
   // handlePress(emitMsg) {
