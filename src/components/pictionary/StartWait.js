@@ -9,7 +9,7 @@ var {
 import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
-import { emitToSocket, START_TURN, END_TURN } from '../../utils';
+import { emitToSocket, START_TURN, TURN_WAIT } from '../../utils';
 import socket from '../../socket'
 // import SubmitButton from '../SubmitButton';
 
@@ -19,7 +19,6 @@ const thisWidth = Dimensions.get('window').width;
 class PictionaryStartWait extends React.Component {
   constructor(props) {
     super(props);
-    // this.handlePress = this.handlePress.bind(this)
   }
 
   componentDidMount() {
@@ -27,20 +26,20 @@ class PictionaryStartWait extends React.Component {
       Actions.pictionaryDrawingPane()
     })
 
-    socket.on(END_TURN, () => {
+    socket.on(TURN_WAIT, () => {
       Actions.pictionaryTurnWait();
+    })
+
+    socket.on(GAME_OVER, () => {
+      Actions.gameOver()
     })
   }
 
   componentWillUnmount() {
     socket.off(START_TURN);
-    socket.off(END_TURN);
+    socket.off(TURN_WAIT);
+    socket.off(GAME_OVER)
   }
-
-  // handlePress(emitMsg) {
-  //   emitToSocket(emitMsg);
-  //   Actions.pictionaryDrawingPane();
-  // }
 
   render() {
     return (
