@@ -30,15 +30,12 @@ class PictionaryStartWait extends React.Component {
       Actions.pictionaryTurnWait();
     })
 
-    socket.on(GAME_OVER, () => {
-      Actions.gameOver()
-    })
+
   }
 
   componentWillUnmount() {
     socket.off(START_TURN);
     socket.off(TURN_WAIT);
-    socket.off(GAME_OVER)
   }
 
   render() {

@@ -5,7 +5,7 @@ import ReactNative from 'react-native';
 const { StyleSheet, View } = ReactNative;
 import Svg, { Text } from 'react-native-svg';
 import { Actions } from 'react-native-router-flux';
-import { START_TURN } from '../../utils';
+import { END_TURN, gameOver } from '../../utils';
 import socket from '../../socket';
 import Dimensions from 'Dimensions';
 
@@ -16,17 +16,17 @@ class PictionaryTurnWait extends React.Component {
 
   componentDidMount() {
     socket.on(END_TURN, () => {
-      Actions.nextTeamStartWait()
+      Actions.pictionaryNextTeamStartWait();
     })
 
-    socket.on(GAME_OVER, () => {
-      Actions.gameOver()
+    socket.on(gameOver, () => {
+      Actions.pictionaryGameOver();
     })
   }
 
   componentWillUnmount() {
-    socket.off(START_TURN)
-    socket.off(GAME_OVER)
+    socket.off(END_TURN)
+    socket.off(gameOver)
   }
 
   render() {
@@ -47,7 +47,7 @@ class PictionaryTurnWait extends React.Component {
             textAnchor="middle"
             fontFamily="Amatic SC"
           >
-            Other team is drawing.
+            Other team is drawing!
           </Text>
         </Svg>
       </View>

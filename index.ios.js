@@ -35,7 +35,9 @@ import GameOver from './src/components/9GameOver';
 import CreateTeamProfile from './src/components/pictionary/CreateTeamProfile';
 import PictionaryStartWait from './src/components/pictionary/StartWait';
 import PictionaryDrawingPane from './src/components/pictionary/DrawingPane';
-import PictionaryTurnWait from './src/components/pictionary/TurnWait'
+import PictionaryTurnWait from './src/components/pictionary/TurnWait';
+import PictionaryNextTeamStartWait from './src/components/pictionary/NextTeamStartWait';
+import PictionaryGameOver from './src/components/pictionary/GameOver';
 
 export default class capstonenative extends Component {
   render() {
@@ -57,10 +59,12 @@ export default class capstonenative extends Component {
               <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} />
             </Scene>
             <Scene key="pictionary" initial={true} >
-              <Scene key="pictionaryCreateProfile" title="Create your team!" component={CreateTeamProfile} renderBackButton={() => (null)} initial={true}   />
-              <Scene key="pictionaryStartWait" component={PictionaryStartWait} hideNavBar={true}  />
-              <Scene key="pictionaryDrawingPane" title="Draw!" component={PictionaryDrawingPane} renderBackButton={() => (null)}  />
-              <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} hideNavBar={true} />
+              <Scene key="pictionaryCreateProfile" title="Create your team!" component={CreateTeamProfile} renderBackButton={() => (null)}    />
+              <Scene key="pictionaryStartWait" component={PictionaryStartWait} hideNavBar={true}   />
+              <Scene key="pictionaryDrawingPane" title="Draw!" component={PictionaryDrawingPane} renderBackButton={() => (null)}   />
+              <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} hideNavBar={true}  />
+              <Scene key="pictionaryNextTeamStartWait" component={ PictionaryNextTeamStartWait } hideNavBar={true}  />
+              <Scene key="pictionaryGameOver" component={ PictionaryGameOver } hideNavBar={true} initial={true} />
             </Scene>
         </Router>
       </Provider>
