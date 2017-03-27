@@ -12,7 +12,7 @@ import {
   View
 } from 'react-native';
 
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, ActionConst } from 'react-native-router-flux';
 import socket from './src/socket';
 import { Provider } from 'react-redux';
 import store from './src/store';
@@ -46,25 +46,25 @@ export default class capstonenative extends Component {
         <Router navigationBarStyle={{backgroundColor: 'white',  borderBottomColor: 'black', borderBottomWidth: 1 }} titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 31, backgroundColor: 'transparent'}}>
             <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!"  />
             <Scene key="drawkward" >
-              <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} />
-              <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for users" renderBackButton={() => (null)} />
-              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!"  renderBackButton={() => (null)} />
-              <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} />
-              <Scene key="drawkwardArtistWait" component={ ArtistWait } title="Artist - Wait" hideNavBar={true} />
-              <Scene key="drawkwardWriteCaption" component={ WriteCaption } title="Write a caption!" hideNavBar={true} />
-              <Scene key="drawkwardPhraseWait" component={ PhraseWait } title="Waiting for Phrases!" hideNavBar={true} />
-              <Scene key="drawkwardListCaptions" component={ ListCaptions } title="Select the original title" hideNavBar={true} />
-              <Scene key="drawkwardEndRound" component={ EndRound } hideNavBar={true} />
-              <Scene key="drawkwardGameOver" component={ GameOver } title="Game Over" hideNavBar={true} />
-              <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} />
+              <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} type={ActionConst.RESET} />
+              <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for users" renderBackButton={() => (null)} type={ActionConst.RESET} />
+              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!"  renderBackButton={() => (null)} type={ActionConst.RESET} />
+              <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="drawkwardArtistWait" component={ ArtistWait } title="Artist - Wait" hideNavBar={true} type={ActionConst.RESET}  />
+              <Scene key="drawkwardWriteCaption" component={ WriteCaption } title="Write a caption!" hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="drawkwardPhraseWait" component={ PhraseWait } title="Waiting for Phrases!" hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="drawkwardListCaptions" component={ ListCaptions } title="Select the original title" hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="drawkwardEndRound" component={ EndRound } hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="drawkwardGameOver" component={ GameOver } title="Game Over" hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} type={ActionConst.RESET} />
             </Scene>
             <Scene key="pictionary" initial={true} >
-              <Scene key="pictionaryCreateProfile" title="Create your team!" component={CreateTeamProfile} renderBackButton={() => (null)}    />
-              <Scene key="pictionaryStartWait" component={PictionaryStartWait} hideNavBar={true}   />
-              <Scene key="pictionaryDrawingPane" title="Draw!" component={PictionaryDrawingPane} renderBackButton={() => (null)}   />
-              <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} hideNavBar={true}  />
-              <Scene key="pictionaryNextTeamStartWait" component={ PictionaryNextTeamStartWait } hideNavBar={true}  />
-              <Scene key="pictionaryGameOver" component={ PictionaryGameOver } hideNavBar={true} initial={true} />
+              <Scene key="pictionaryCreateProfile" title="Create your team!" component={CreateTeamProfile} renderBackButton={() => (null)} type={ActionConst.RESET} />
+              <Scene key="pictionaryStartWait" component={PictionaryStartWait} hideNavBar={true} type={ActionConst.RESET}  />
+              <Scene key="pictionaryDrawingPane" title="Draw!" component={PictionaryDrawingPane} renderBackButton={() => (null)}  type={ActionConst.RESET} />
+              <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="pictionaryNextTeamStartWait" component={ PictionaryNextTeamStartWait } hideNavBar={true} type={ActionConst.RESET} />
+              <Scene key="pictionaryGameOver" component={ PictionaryGameOver } hideNavBar={true} type={ActionConst.RESET} />
             </Scene>
         </Router>
       </Provider>

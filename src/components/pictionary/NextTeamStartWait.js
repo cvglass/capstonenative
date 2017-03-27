@@ -23,12 +23,15 @@ class NextTeamStartWait extends React.Component {
   }
 
   componentDidMount() {
+    console.log('I am on NextTeamStartWait')
     socket.on(START_TURN, () => {
+      console.log('going from NextTeamStartWait to drawing')
       Actions.pictionaryDrawingPane()
     })
   }
 
   componentWillUnmount() {
+    console.log('leaving NextTeamStartWait')
     socket.off(START_TURN);
   }
 

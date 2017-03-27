@@ -60,13 +60,13 @@ class PictionaryDrawingPane extends React.Component {
       onPanResponderRelease: this._handlePanResponderEnd,
       onPanResponderTerminate: this._handlePanResponderEnd,
     });
+    socket.on(RECEIVE_NEW_WORD, word => {
+      this.setState({currentWord: word})
+    })
 
   }
 
   componentDidMount() {
-    socket.on(RECEIVE_NEW_WORD, word => {
-      this.setState({currentWord: word})
-    })
 
     socket.on(END_TURN, () => {
       Actions.pictionaryTurnWait();
@@ -77,6 +77,12 @@ class PictionaryDrawingPane extends React.Component {
   }
 
   componentWillUnmount() {
+    this.props.clearPolyLines();
+    this.setState({
+        coordinates: [],
+        polyLines: [],
+        currentWord: '',
+    })
     socket.off(RECEIVE_NEW_WORD);
     socket.off(END_TURN);
     socket.off(gameOver);
@@ -132,7 +138,7 @@ class PictionaryDrawingPane extends React.Component {
 
           <Text
             x={thisWidth / 2}
-            y={thisHeight - 80}
+            y={thisHeight - BOT_PADDING - 32}
             stroke="none"
             color="black"
             fontSize="20"

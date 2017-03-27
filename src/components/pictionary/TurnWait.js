@@ -15,16 +15,20 @@ const thisWidth = Dimensions.get('window').width;
 class PictionaryTurnWait extends React.Component {
 
   componentDidMount() {
+    console.log('this is on turn wait')
     socket.on(END_TURN, () => {
+      console.log('end turn')
       Actions.pictionaryNextTeamStartWait();
     })
 
     socket.on(gameOver, () => {
+      console.log('game over')
       Actions.pictionaryGameOver();
     })
   }
 
   componentWillUnmount() {
+    console.log('leaving turnwait')
     socket.off(END_TURN)
     socket.off(gameOver)
   }
