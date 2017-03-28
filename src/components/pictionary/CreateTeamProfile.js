@@ -45,7 +45,7 @@ class CreateTeamProfile extends React.Component {
         coordinates: [],
         polyLines: [],
         teamName: 'Enter your team name here!',
-        sliderValue: 1
+        sliderValue: 2
     };
       this._handleStartShouldSetPanResponder = this._handleStartShouldSetPanResponder.bind(this);
       this._handleMoveShouldSetPanResponder = this._handleMoveShouldSetPanResponder.bind(this);
@@ -102,7 +102,7 @@ class CreateTeamProfile extends React.Component {
             {this.state.sliderValue && +this.state.sliderValue.toFixed(3)}
           </Text>
           <Slider
-            minimumValue={1}
+            minimumValue={2}
             maximumValue={10}
             step={1}
             onValueChange={(value) => this.setState({sliderValue: value})} />
@@ -142,7 +142,7 @@ class CreateTeamProfile extends React.Component {
               portrait: this.convertImgStrToNums(this.props.polyLines),
               members: this.state.sliderValue,
             })}
-            buttonText={'Submit Profile!'}
+            buttonText={'Submit Avatar!'}
           />
         </View>
       </View>

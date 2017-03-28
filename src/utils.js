@@ -11,6 +11,7 @@ export const newUser = 'new user';
 export const sendStartGame = 'send start game';
 export const nextDrawing = 'next drawing';
 export const JOIN_ROOM = 'join room';
+export const sendStartNewGame = 'send start new game';
 
 
 //receive message constants
