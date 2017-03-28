@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-const socket = io('http://172.28.118.221:1337', {
+const socket = io('https://drawkward.herokuapp.com', {
   transports: ['websocket']
 });
 
