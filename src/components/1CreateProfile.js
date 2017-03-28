@@ -134,6 +134,8 @@ class CreateProfile extends React.Component {
               style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 28, paddingHorizontal: 10}}
               onChangeText={(username) => this.setState({username})}
               placeholder={this.state.username}
+              autoCorrect={false}
+              autoCapitalize="none"
             />
             <View style={{height: 5}} />
             <SubmitButton

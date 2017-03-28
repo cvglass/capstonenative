@@ -25,9 +25,6 @@ class GuessWait extends React.Component {
   }
 
   componentWillMount() {
-    socket.on(writeCaption, () => {
-      Actions.drawkwardWriteCaption();
-    });
     socket.on(gameOver, () => {
       Actions.drawkwardGameOver();
     });
@@ -37,7 +34,7 @@ class GuessWait extends React.Component {
     })
   }
   componentWillUnmount() {
-    socket.off(writeCaption);
+
     socket.off(gameOver);
     socket.off(scoreboard);
   }

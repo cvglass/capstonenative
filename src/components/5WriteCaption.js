@@ -72,6 +72,8 @@ class WriteCaption extends React.Component {
           onChangeText={(caption) => this.setState({caption})}
           placeholder={this.state.caption}
           maxLength={45}
+          autoCorrect={false}
+          autoCapitalize="none"
         />
         <View style={{height: 5}} />
         <SubmitButton

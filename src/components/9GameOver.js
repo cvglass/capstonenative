@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
 import socket from '../socket';
 import SubmitButton from './SubmitButton';
-import { startGame } from '../utils'
+import {  emitToSocket, sendStartNewGame } from '../utils'
 
 //REMOVE SUBMITBUTTON IN PRODUCTION (it's in for testing purposes only)
 
@@ -18,16 +18,12 @@ const thisWidth = Dimensions.get('window').width;
 class GameOver extends React.Component {
   constructor(props) {
     super(props);
+    this.handlePress = this.handlePress.bind(this);
   }
 
-  componentWillMount() {
-    socket.on(startGame, () => {
-      Actions.drawkwardDrawingPane()
-    })
-  }
-
-  componentWillUnmount() {
-    socket.off(startGame)
+  handlePress(emitMsg, emitObj) {
+    emitToSocket(emitMsg, emitObj);
+    Actions.chooseGame();
   }
 
   render() {
@@ -64,7 +60,7 @@ class GameOver extends React.Component {
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => {Actions.drawkwardDrawingPane()}}
+          onPress={() => {this.handlePress({sendStartNewGame})}}
           buttonText={'Start New Game'}
         />
       </View>
