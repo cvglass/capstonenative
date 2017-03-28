@@ -31,8 +31,7 @@ class EnterRoom extends React.Component {
       Actions.drawkward();
     })
     socket.on(GO_TO_PICTIONARY, () => {
-      //NOTE: change to pictionary.
-      Actions.drawkwardCreateProfile();
+      Actions.pictionary();
     })
   }
 

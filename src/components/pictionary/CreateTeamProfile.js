@@ -95,6 +95,9 @@ class CreateTeamProfile extends React.Component {
           style={{height: 45, borderColor: 'black', borderWidth: 1, borderRadius: 10, fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 22, paddingHorizontal: 10}}
           onChangeText={(teamName) => this.setState({teamName})}
           placeholder={this.state.teamName}
+          maxLength={25}
+          autoCorrect={false}
+          autoCapitalize="none"
         />
       <View height={88} style={{borderBottomColor: 'black', borderBottomWidth: 1}} >
           <Text style={styles.text} >
