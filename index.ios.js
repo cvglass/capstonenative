@@ -44,8 +44,8 @@ export default class capstonenative extends Component {
     return (
       <Provider store={store}>
         <Router navigationBarStyle={{backgroundColor: 'white',  borderBottomColor: 'black', borderBottomWidth: 1 }} titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 31, backgroundColor: 'transparent'}}>
-            <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!" />
-            <Scene key="drawkward" initial={true} >
+            <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!" initial={true} />
+            <Scene key="drawkward">
               <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} panHandlers={null} />
               <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for users" renderBackButton={() => (null)} panHandlers={null} />
               <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!"  renderBackButton={() => (null)} panHandlers={null}  />
@@ -59,7 +59,7 @@ export default class capstonenative extends Component {
               <Scene key="drawkwardGuessWait" component= { GuessWait } title="Waiting for guesses!" hideNavBar={true} panHandlers={null} />
             </Scene>
             <Scene key="pictionary"  >
-              <Scene key="pictionaryCreateProfile" title="Create your team!" component={CreateTeamProfile} renderBackButton={() => (null)} type={ActionConst.RESET} panHandlers={null} />
+              <Scene key="pictionaryCreateProfile" title="Create your team!" component={CreateTeamProfile} renderBackButton={() => (null)} type={ActionConst.RESET} panHandlers={null} initial={true} />
               <Scene key="pictionaryStartWait" component={PictionaryStartWait} hideNavBar={true} type={ActionConst.RESET} panHandlers={null} />
               <Scene key="pictionaryDrawingPane" title="Draw!" component={PictionaryDrawingPane} renderBackButton={() => (null)}  type={ActionConst.RESET} panHandlers={null} />
               <Scene key="pictionaryTurnWait" component={PictionaryTurnWait} hideNavBar={true} type={ActionConst.RESET} panHandlers={null} />
