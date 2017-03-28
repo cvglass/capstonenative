@@ -54,10 +54,7 @@ class DrawingWait extends React.Component {
             Waiting for everyone to finish writing!
           </Text>
         </Svg>
-        <SubmitButton
-          onPress={() => {Actions.drawkwardListCaptions({captions: ['Peter Piper picked a peck of pickled peppers', 'lion sees his reflection for the first time', 'test', 'this isn\'t fine', 'but hopefully', 'this is fine']})}}
-          buttonText={'Go to ListCaptions Component!'}
-        />
+
       </View>
     )
   }

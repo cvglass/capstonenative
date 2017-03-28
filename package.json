@@ -11,6 +11,8 @@
     "react": "15.4.2",
     "react-native": "0.42.0",
     "react-native-button": "^1.8.2",
+    "react-native-keyboard-aware-scroll-view": "^0.2.8",
+    "react-native-keyboard-spacer": "^0.3.1",
     "react-native-router-flux": "^3.38.0",
     "react-native-svg": "^5.1.5",
     "react-redux": "^5.0.3",
@@ -30,6 +32,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./src/assets/fonts"]
+    "assets": [
+      "./src/assets/fonts"
+    ]
   }
 }
