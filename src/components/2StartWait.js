@@ -37,7 +37,7 @@ class GuessWait extends React.Component {
 
   handlePress(emitMsg) {
     emitToSocket(emitMsg)
-    Actions.drawkwardDrawingPane();
+    // Actions.drawkwardDrawingPane();
   }
 
   render() {

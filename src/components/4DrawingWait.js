@@ -28,13 +28,13 @@ class DrawingWait extends React.Component {
     socket.on(youAreTheArtist, () => {
       Actions.drawkwardArtistWait();
     })
-    socket.on(writeCaption, () => {
+    socket.on('begin caption', () => {
       Actions.drawkwardWriteCaption();
     })
   }
   componentWillUnmount() {
     socket.off(youAreTheArtist);
-    socket.off(writeCaption);
+    socket.off('begin caption');
   }
 
   render() {

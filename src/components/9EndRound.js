@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import Dimensions from 'Dimensions';
 import socket from '../socket';
 import SubmitButton from './SubmitButton';
-import { emitToSocket, nextDrawing, startGame } from '../utils'
+import { emitToSocket, nextDrawing, startGame, youAreTheArtist, writeCaption } from '../utils'
 
 
 const thisHeight = Dimensions.get('window').height;
@@ -24,18 +24,27 @@ class EndRound extends React.Component {
   handlePress(emitMsg, emitObj) {
     // return ((emitMsg, emitObj) => {
       emitToSocket(emitMsg, emitObj);
-      // Actions.drawkwardStartWait();
+      // Actions.drawkwardDrawingWait();
     // })
   }
-
   componentWillMount() {
+    socket.on('begin caption', () => {
+      console.log('WRITE CAPTION')
+      Actions.drawkwardWriteCaption();
+    })
+    socket.on(youAreTheArtist, () => {
+      Actions.drawkwardArtistWait();
+    })
     socket.on(startGame, () => {
-      Actions.drawkwardDrawingPane()
+      Actions.drawkwardDrawingPane();
     })
   }
 
   componentWillUnmount() {
-    socket.off(startGame)
+    socket.off(startGame);
+    socket.off(youAreTheArtist);
+    socket.off('begin caption');
+    // socket.off(writeCaption);
   }
 
   render() {
