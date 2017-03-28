@@ -48,7 +48,7 @@ export default class capstonenative extends Component {
             <Scene key="drawkward">
               <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} panHandlers={null} />
               <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for users" renderBackButton={() => (null)} panHandlers={null} />
-              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!"  renderBackButton={() => (null)} panHandlers={null}  />
+              <Scene key="drawkwardDrawingPane" component={ DrawingPane } title="Drawkward - Draw!" hideNavBar={false} renderBackButton={() => (null)} panHandlers={null}  />
               <Scene key="drawkwardDrawingWait" component={ DrawingWait } title="Drawkward - Wait!" hideNavBar={true} panHandlers={null} />
               <Scene key="drawkwardArtistWait" component={ ArtistWait } title="Artist - Wait" hideNavBar={true} panHandlers={null}  />
               <Scene key="drawkwardWriteCaption" component={ WriteCaption } title="Write a caption!" hideNavBar={true} panHandlers={null} />

@@ -60,7 +60,7 @@ class GameOver extends React.Component {
           </Text>
         </Svg>
         <SubmitButton
-          onPress={() => {this.handlePress({sendStartNewGame})}}
+          onPress={() => {this.handlePress(sendStartNewGame)}}
           buttonText={'Start New Game'}
         />
       </View>
