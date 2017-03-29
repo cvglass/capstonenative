@@ -44,7 +44,7 @@ export default class capstonenative extends Component {
     return (
       <Provider store={store}>
         <Router navigationBarStyle={{backgroundColor: 'white',  borderBottomColor: 'black', borderBottomWidth: 1 }} titleStyle={{fontFamily: 'Amatic SC', fontWeight: 'bold', fontSize: 31, backgroundColor: 'transparent'}}>
-            <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!" initial={true} />
+            <Scene key="chooseGame" component={ EnterRoom } title="Enter room code!" initial={true} renderBackButton={() => (null)} />
             <Scene key="drawkward">
               <Scene key="drawkwardCreateProfile" component={ CreateProfile } title="Draw your avatar!" initial={true} panHandlers={null} />
               <Scene key="drawkwardStartWait" component={ StartWait } title="Waiting for users" renderBackButton={() => (null)} panHandlers={null} />

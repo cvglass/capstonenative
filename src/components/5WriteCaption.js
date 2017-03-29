@@ -38,12 +38,12 @@ class WriteCaption extends React.Component {
       <View>
         <Svg
           style={styles.container}
-          height={thisHeight - 100}
+          height={thisHeight - 400}
           width={thisWidth}
         >
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2 - 80}
+            y={thisHeight / 2 - 40}
             stroke="none"
             color="black"
             fontSize="30"
@@ -55,7 +55,7 @@ class WriteCaption extends React.Component {
           </Text>
           <Text
             x={thisWidth / 2}
-            y={thisHeight / 2 - 50}
+            y={thisHeight / 2 - 20}
             stroke="none"
             color="black"
             fontSize="30"
