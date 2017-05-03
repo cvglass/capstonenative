@@ -42,6 +42,7 @@ class DrawingPane extends React.Component {
     this.state = {
         coordinates: [],
         polyLines: [],
+        phrase: ''
     };
       this._handleStartShouldSetPanResponder = this._handleStartShouldSetPanResponder.bind(this);
       this._handleMoveShouldSetPanResponder = this._handleMoveShouldSetPanResponder.bind(this);
@@ -51,6 +52,9 @@ class DrawingPane extends React.Component {
       this.handlePress = this.handlePress.bind(this)
   }
 
+  componentDidMount() {
+    this.setState({phrase:this.props.phrase})
+  }
 
   componentWillMount() {
     this._panResponder = PanResponder.create({
@@ -67,7 +71,7 @@ class DrawingPane extends React.Component {
       emitToSocket(newDrawing,
       {
         image: this.convertImgStrToNums(this.props.polyLines),
-        phrase: this.props.phrase,
+        phrase: this.state.phrase,
       })
       socket.off(FORCE_SUBMIT_DRAWING);
       this.props.clearPolyLines();
